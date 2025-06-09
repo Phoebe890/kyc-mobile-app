@@ -1,0 +1,166 @@
+.success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 1rem;
+}
+
+.success-card {
+  padding: 2rem;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.success-icon {
+  margin: 1.5rem auto;
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #4CAF50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.circle mat-icon {
+  font-size: 40px;
+  color: white;
+  width: 50px;
+  height: 40px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 1rem;
+  color: #333;
+  line-height: 1.2;
+}
+
+p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  min-width: 150px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+button:hover {
+  background-color: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+/* Tablet Responsive */
+@media (max-width: 768px) {
+  .success-card {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .circle {
+    width: 70px;
+    height: 70px;
+  }
+
+  .circle mat-icon {
+    font-size: 35px;
+    width: 45px;
+    height: 35px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .success-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .success-card {
+    padding: 1.25rem;
+    width: 100%;
+  }
+
+  .success-icon {
+    margin: 1rem auto;
+  }
+
+  .circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .circle mat-icon {
+    font-size: 30px;
+    width: 40px;
+    height: 30px;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  button, .circle {
+    transition: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+  .circle {
+    border: 2px solid ButtonText;
+  }
+  
+  button {
+    border: 2px solid ButtonText;
+  }
+}

@@ -1,0 +1,256 @@
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: #f8f9fa;
+}
+
+.welcome-card {
+  max-width: 600px;
+  width: 100%;
+  padding: 2rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.welcome-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.welcome-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #1976d2;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #1e293b;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.welcome-description {
+  font-size: 1.1rem;
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.steps-overview {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.steps-overview h2 {
+  color: #1e293b;
+  font-size: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.steps-overview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.steps-overview li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.steps-overview li:last-child {
+  margin-bottom: 0;
+}
+
+.steps-overview mat-icon {
+  margin-right: 12px;
+  color: #1976d2;
+  flex-shrink: 0;/* prevents icon from shrinking in small spaces*/
+}
+
+.time-estimate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.time-estimate mat-icon {
+  margin-right: 8px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin-top: 1.5rem;
+}
+
+button {
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  min-width: 200px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+button mat-icon {
+  margin-left: 8px;
+}
+
+/* Tablet Responsive */
+@media (max-width: 768px) {
+  .welcome-container {
+    padding: 1.25rem;
+  }
+
+  .welcome-card {
+    padding: 1.5rem;
+  }
+
+  .welcome-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .welcome-description {
+    font-size: 1rem;
+  }
+
+  .steps-overview {
+    padding: 1.25rem;
+  }
+
+  .steps-overview h2 {
+    font-size: 1.2rem;
+  }
+
+  button {
+    padding: 0.7rem 1.75rem;
+    font-size: 1rem;
+    min-width: 180px;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .welcome-container {
+    padding: 1rem 0.75rem;
+    align-items: flex-start;
+  }
+
+  .welcome-card {
+    padding: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .welcome-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .welcome-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .welcome-description {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .steps-overview {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .steps-overview h2 {
+    font-size: 1.1rem;
+  }
+
+  .steps-overview li {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .steps-overview mat-icon {
+    margin-right: 10px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .time-estimate {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .time-estimate mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    min-width: unset;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+  .welcome-card {
+    border: 2px solid ButtonText;
+  }
+
+  .steps-overview {
+    border: 1px solid ButtonText;
+  }
+
+  button {
+    border: 2px solid ButtonText;
+  }
+} 

@@ -1,0 +1,11 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'intl-tel-input/build/css/intlTelInput.css';
+
+// Global styles
+html, body { height: 100%; }
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #F3F4F6;
+  color: #1F2937;
+}

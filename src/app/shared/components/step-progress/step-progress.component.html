@@ -1,0 +1,14 @@
+<div class="step-progress-container">
+  <div class="steps" [attr.data-current-step]="currentStep">
+    <div class="step" *ngFor="let step of steps" [ngClass]="{'completed': isCompleted(step.number), 'active': isActive(step.number)}">
+      <div class="step-circle">
+        <span class="step-number" *ngIf="!isCompleted(step.number)">{{step.number}}</span>
+        <span class="checkmark" *ngIf="isCompleted(step.number)">✓</span>
+      </div>
+      <div class="step-content">
+        <span class="step-title">{{step.title}}</span>
+        <span class="step-subtitle">{{step.subtitle}}</span>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,50 @@
+<div class="welcome-container">
+  <mat-card class="welcome-card">
+    <div class="welcome-header">
+      <mat-icon class="welcome-icon">verified_user</mat-icon>
+      <h1>Welcome to KYC Verification</h1>
+    </div>
+    
+    <mat-card-content>
+      <div class="welcome-content">
+        <p class="welcome-description">
+          We're here to help you complete your Know Your Customer (KYC) verification process. This will only take a few minutes.
+        </p>
+        
+        <div class="steps-overview">
+          <h2>What you'll need:</h2>
+          <ul>
+            <li>
+              <mat-icon>person</mat-icon>
+              <span>Personal Information</span>
+            </li>
+            <li>
+              <mat-icon>badge</mat-icon>
+              <span>Valid ID Document</span>
+            </li>
+            <li>
+              <mat-icon>photo_camera</mat-icon>
+              <span>A Selfie for Verification</span>
+            </li>
+            <li>
+              <mat-icon>email</mat-icon>
+              <span>Active Email Address</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="time-estimate">
+          <mat-icon>schedule</mat-icon>
+          <span>Estimated time: 5-10 minutes</span>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-flat-button color="primary" (click)="onContinue()">
+        Get Started
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div> 
