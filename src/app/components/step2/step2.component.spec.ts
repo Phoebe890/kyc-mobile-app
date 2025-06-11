@@ -17,7 +17,7 @@ describe('Step2Component', () => {
       ],
        providers: [
         
-        provideHttpClientTesting()
+       ... provideHttpClientTesting()
       ]
     })
     .compileComponents();

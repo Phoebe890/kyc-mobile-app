@@ -9,7 +9,9 @@ describe('SuccessComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SuccessComponent],
-       providers: [provideAnimations()]
+       providers: [
+        ...provideAnimations()
+      ]
     })
     .compileComponents();
 

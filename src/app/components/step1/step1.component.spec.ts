@@ -30,7 +30,7 @@ describe('Step1Component', () => {
         NoopAnimationsModule
       ],
       providers: [
-        provideHttpClientTesting() // modern way to mock HttpClient
+       ... provideHttpClientTesting() // modern way to mock HttpClient
       ]
     }).compileComponents();
 

@@ -10,7 +10,9 @@ describe('Step3Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Step3Component],
-      providers: [provideHttpClientTesting()]
+      providers: [
+        ...provideHttpClientTesting()
+      ]
     })
     .compileComponents();
 
