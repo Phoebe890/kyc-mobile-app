@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { Step2Component } from './step2.component';
 import { NgIf } from '@angular/common';
+import { provideHttpClientTesting } from '@angular/common/http/testing'; 
+
 describe('Step2Component', () => {
   let component: Step2Component;
   let fixture: ComponentFixture<Step2Component>;
@@ -12,6 +14,10 @@ describe('Step2Component', () => {
         CommonModule,
          NgIf,
         Step2Component
+      ],
+       providers: [
+        
+        provideHttpClientTesting()
       ]
     })
     .compileComponents();
