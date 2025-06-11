@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideAnimations } from '@angular/platform-browser/animations'; 
 import { SuccessComponent } from './success.component';
 
 describe('SuccessComponent', () => {
@@ -8,7 +8,8 @@ describe('SuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SuccessComponent]
+      imports: [SuccessComponent],
+       providers: [provideAnimations()]
     })
     .compileComponents();
 
