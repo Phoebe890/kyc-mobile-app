@@ -22,6 +22,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { CountyService } from './services/county.service';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { CountyService } from './services/county.service';
     MatDatepickerModule,
     MatNativeDateModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    IonicModule.forRoot({})
   ],
   providers: [
     CountyService
