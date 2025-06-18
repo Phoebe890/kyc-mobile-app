@@ -2,7 +2,6 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "defaultProject": "kyc",           
   "projects": {
     "kyc": {
       "projectType": "application",
@@ -32,8 +31,8 @@
               },
               {
                 "glob": "**/*.svg",
-                "input": "node_modules/ionicons/dist/ionicons/svg",
-                "output": "./svg"
+                "input": "node_modules/ionicons/dist/svg",
+                "output": "assets/ionicons/svg"
               }
             ],
             "styles": [
@@ -103,8 +102,8 @@
               },
               {
                 "glob": "**/*.svg",
-                "input": "node_modules/ionicons/dist/ionicons/svg",
-                "output": "./svg"
+                "input": "node_modules/ionicons/dist/svg",
+                "output": "svg"
               }
             ],
             "styles": [

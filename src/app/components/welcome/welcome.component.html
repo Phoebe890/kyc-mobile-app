@@ -1,11 +1,11 @@
-<div class="welcome-container">
-  <mat-card class="welcome-card">
+<ion-content class="welcome-container">
+  <ion-card class="welcome-card">
     <div class="welcome-header">
-      <mat-icon class="welcome-icon">verified_user</mat-icon>
+      <ion-icon name="shield-checkmark" class="welcome-icon"></ion-icon>
       <h1>Welcome to KYC Verification</h1>
     </div>
-    
-    <mat-card-content>
+
+    <ion-card-content>
       <div class="welcome-content">
         <p class="welcome-description">
           We're here to help you complete your Know Your Customer (KYC) verification process. This will only take a few minutes.
@@ -15,36 +15,36 @@
           <h2>What you'll need:</h2>
           <ul>
             <li>
-              <mat-icon>person</mat-icon>
+              <ion-icon name="person" class="step-icon"></ion-icon>
               <span>Personal Information</span>
             </li>
             <li>
-              <mat-icon>badge</mat-icon>
+              <ion-icon name="id-card" class="step-icon"></ion-icon>
               <span>Valid ID Document</span>
             </li>
             <li>
-              <mat-icon>photo_camera</mat-icon>
+              <ion-icon name="camera" class="step-icon"></ion-icon>
               <span>A Selfie for Verification</span>
             </li>
             <li>
-              <mat-icon>email</mat-icon>
+              <ion-icon name="mail" class="step-icon"></ion-icon>
               <span>Active Email Address</span>
             </li>
           </ul>
         </div>
 
         <div class="time-estimate">
-          <mat-icon>schedule</mat-icon>
+          <ion-icon name="time-outline"></ion-icon>
           <span>Estimated time: 5-10 minutes</span>
         </div>
       </div>
-    </mat-card-content>
+    </ion-card-content>
 
-    <mat-card-actions>
-      <button mat-flat-button color="primary" (click)="onContinue()">
+    <ion-card-content class="button-container">
+      <ion-button class="material-button" (click)="onContinue()">
         Get Started
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</div> 
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content> 

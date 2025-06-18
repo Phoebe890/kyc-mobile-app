@@ -11,6 +11,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(),
-    provideNativeDateAdapter(), provideIonicAngular({})
+    provideNativeDateAdapter(),
+    provideIonicAngular({
+      mode: 'md',
+      animated: true,
+      rippleEffect: true
+    })
   ]
 };

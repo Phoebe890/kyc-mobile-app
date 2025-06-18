@@ -3,8 +3,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
- template: `
-    <h1>Hello, {{ title }}</h1>
+  template: `
     <router-outlet></router-outlet>
   `,
   styles: [],

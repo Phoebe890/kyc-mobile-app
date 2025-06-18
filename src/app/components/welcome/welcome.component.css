@@ -1,19 +1,24 @@
 .welcome-container {
+  --background: #f8f9fa;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 1.5rem;
-  background: #f8f9fa;
 }
 
 .welcome-card {
   max-width: 600px;
   width: 100%;
   padding: 2rem;
+  margin: 0;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   background: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .welcome-header {
@@ -30,6 +35,7 @@
   height: 48px;
   color: #1976d2;
   margin-bottom: 1rem;
+  display: inline-block;
 }
 
 h1 {
@@ -81,10 +87,11 @@ h1 {
   margin-bottom: 0;
 }
 
-.steps-overview mat-icon {
+.steps-overview ion-icon {
   margin-right: 12px;
   color: #1976d2;
-  flex-shrink: 0;/* prevents icon from shrinking in small spaces*/
+  flex-shrink: 0;
+  font-size: 24px;
 }
 
 .time-estimate {
@@ -96,31 +103,62 @@ h1 {
   font-size: 0.95rem;
 }
 
-.time-estimate mat-icon {
+.time-estimate ion-icon {
   margin-right: 8px;
   font-size: 20px;
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  color: #1976d2;
+  display: inline-block;
 }
 
-mat-card-actions {
+.button-container {
   display: flex;
   justify-content: center;
   padding: 0;
   margin-top: 1.5rem;
 }
 
-button {
-  padding: 0.75rem 2rem;
-  font-size: 1.1rem;
+.material-button {
+  --background: #1976d2;
+  --background-hover: #1565c0;
+  --background-activated: #1565c0;
+  --color: white;
+  --border-radius: 4px;
+  --box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.0892857143em;
   min-width: 200px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  height: 36px;
+  margin: 0;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-button mat-icon {
+.material-button:hover {
+  --box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+}
+
+.material-button ion-icon {
   margin-left: 8px;
+  font-size: 18px;
+  display: inline-block;
+}
+
+.step-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  color: #1976d2;
+  margin-right: 12px;
+  flex-shrink: 0;
+  display: inline-block;
 }
 
 /* Tablet Responsive */
@@ -155,10 +193,9 @@ button mat-icon {
     font-size: 1.2rem;
   }
 
-  button {
-    padding: 0.7rem 1.75rem;
-    font-size: 1rem;
+  .material-button {
     min-width: 180px;
+    font-size: 13px;
   }
 }
 
@@ -166,12 +203,16 @@ button mat-icon {
 @media (max-width: 480px) {
   .welcome-container {
     padding: 1rem 0.75rem;
-    align-items: flex-start;
   }
 
   .welcome-card {
     padding: 1.25rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    margin: 1rem auto;
   }
 
   .welcome-header {
@@ -207,7 +248,7 @@ button mat-icon {
     margin-bottom: 0.75rem;
   }
 
-  .steps-overview mat-icon {
+  .steps-overview ion-icon {
     margin-right: 10px;
     font-size: 18px;
     width: 18px;
@@ -219,24 +260,23 @@ button mat-icon {
     margin-bottom: 1.25rem;
   }
 
-  .time-estimate mat-icon {
+  .time-estimate ion-icon {
     font-size: 18px;
     width: 18px;
     height: 18px;
   }
 
-  button {
+  .material-button {
     width: 100%;
-    padding: 0.7rem 1.5rem;
-    font-size: 1rem;
     min-width: unset;
+    font-size: 13px;
   }
 }
 
 /* Accessibility Improvements */
 @media (prefers-reduced-motion: reduce) {
-  button {
-    transition: none;
+  .material-button {
+    --transition: none;
   }
 }
 
@@ -250,7 +290,7 @@ button mat-icon {
     border: 1px solid ButtonText;
   }
 
-  button {
+  .material-button {
     border: 2px solid ButtonText;
   }
 } 
