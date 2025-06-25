@@ -1,16 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { StepProgressComponent } from '../../shared/components/step-progress/step-progress.component';
-import { KycService } from '../../services/kyc.service';
+
+import {
+  IonCard,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonInput,
+  IonButton,
+} from '@ionic/angular/standalone';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { StepProgressComponent } from '../../shared/components/step-progress/step-progress.component';
+
+import { KycService } from '../../services/kyc.service';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-step3',
@@ -20,13 +31,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    StepProgressComponent,
-    MatProgressSpinnerModule
+
+    IonCard,
+    IonIcon,
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonButton,
+
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+
+    StepProgressComponent
   ]
 })
 export class Step3Component implements OnInit {
@@ -39,17 +55,20 @@ export class Step3Component implements OnInit {
     private snackBar: MatSnackBar,
     private kycService: KycService
   ) {
-    //creates a reactive form with a control called email
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     });
   }
 
   ngOnInit() {
-    // Load saved data if any
     const savedData = localStorage.getItem('step3Data');
     if (savedData) {
-      this.emailForm.patchValue(JSON.parse(savedData));
+      try {
+          this.emailForm.patchValue(JSON.parse(savedData));
+      } catch (error) {
+          console.error('Error parsing saved data for step 3:', error);
+          localStorage.removeItem('step3Data');
+      }
     }
   }
 
@@ -58,13 +77,15 @@ export class Step3Component implements OnInit {
   }
 
   onSubmit() {
+    this.emailForm.get('email')?.markAsTouched();
+
     if (this.emailForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
       const email = this.emailForm.get('email')?.value;
 
-      // Check if we have step1 data and it's completed
       const step1Data = localStorage.getItem('step1Data');
       if (!step1Data) {
+        console.error('Step 1 data not found.');
         this.snackBar.open('Please complete step 1 first', 'Close', {
           duration: 5000,
           panelClass: ['error-snackbar']
@@ -75,9 +96,7 @@ export class Step3Component implements OnInit {
 
       try {
         const parsedData = JSON.parse(step1Data);
-        console.log('Parsed step1 data:', parsedData);
 
-        // Check if we have a valid customerId
         const customerId = parsedData.customerId;
         if (!customerId) {
           console.error('No customerId found in step1Data:', parsedData);
@@ -89,23 +108,20 @@ export class Step3Component implements OnInit {
           return;
         }
 
-        console.log('Submitting email for customerId:', customerId);
-
+        // Pass only the email string to the service
         this.kycService.submitEmail(email).subscribe({
           next: (response) => {
             console.log('Email submission response:', response);
-            
-            // Update the stored data to include email
+
             const updatedData = {
               ...parsedData,
               email: email,
-              emailSubmitted: true
+              emailSubmitted: true,
             };
             localStorage.setItem('step1Data', JSON.stringify(updatedData));
-            
-            // Save form data to localStorage
+
             localStorage.setItem('step3Data', JSON.stringify(this.emailForm.value));
-            
+
             this.router.navigate(['/success']).then(() => {
               this.snackBar.open('Email verification completed successfully', 'Close', {
                 duration: 3000,
@@ -115,7 +131,14 @@ export class Step3Component implements OnInit {
           },
           error: (error) => {
             console.error('Error submitting email:', error);
-            this.snackBar.open('Error verifying email. Please try again.', 'Close', {
+             let errorMessage = 'Error verifying email. Please try again.';
+             if (error && error.error && error.error.message) {
+                 errorMessage = error.error.message;
+             } else if (error.status === 409) {
+                 errorMessage = 'This email is already registered.';
+             }
+
+            this.snackBar.open(errorMessage, 'Close', {
               duration: 5000,
               panelClass: ['error-snackbar']
             });
@@ -125,8 +148,8 @@ export class Step3Component implements OnInit {
           }
         });
       } catch (error) {
-        console.error('Error processing step1 data:', error);
-        this.snackBar.open('Error processing your information. Please try step 1 again.', 'Close', {
+        console.error('Error processing step1 data or submitting email:', error);
+        this.snackBar.open('An error occurred. Please try again.', 'Close', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
@@ -139,6 +162,12 @@ export class Step3Component implements OnInit {
       });
     }
   }
+
+  onStepClick(step: number) {
+     if (step === 1) {
+        this.router.navigate(['/step1']);
+     } else if (step === 2) {
+        this.router.navigate(['/step2']);
+     }
+  }
 }
-
-

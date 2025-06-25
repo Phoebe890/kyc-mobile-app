@@ -5,64 +5,71 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountyService } from '../../services/county.service';
 import { KycService } from '../../services/kyc.service';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+
+import {
+  IonCard,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonInput,
+  IonSelect,
+  IonSelectOption,
+  IonButton,
+} from '@ionic/angular/standalone';
+
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
+
 import { StepProgressComponent } from '../../shared/components/step-progress/step-progress.component';
-import { DateFilterFn } from '@angular/material/datepicker';
+
 import { Step1FormData, EmploymentStatus } from '../../models/step1.interface';
 import { HttpErrorResponse } from '@angular/common/http';
+
 @Component({
   selector: 'app-step1',
   standalone: true,
-  imports: [//import all necessary imports for this standalone component
+  imports: [
     FormsModule,
     StepProgressComponent,
     ReactiveFormsModule,
     CommonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatIconModule,
-    MatButtonModule,
+
+    IonCard,
+    IonIcon,
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonSelect,
+    IonSelectOption,
+    IonButton,
+
     NgxIntlTelInputModule,
   ],
-  templateUrl: './step1.component.html',//specifies the html file
+  templateUrl: './step1.component.html',
   styleUrls: [
     '../../shared/styles/kyc-form.scss',
     './step1.component.css'
   ]
 })
 export class Step1Component implements OnInit {
-  //reactive form group for personal info
   personalInfoForm: FormGroup;
   isLoadingCounties = false;
   isSubmitting = false;
-  
-personal_details = signal({
-  firstName:"",
-  lastName:"",
-  phoneNumber:"",
-  employmentStatus:"",
-  county:"",
-  dateOfBirth:"",
-  selfieImageUrl:null,
-  frontPhotoIdUrl:null,
-  backPhotoIdUrl:null,
-  email:null,
-  isCaptured:false
-})
-//counties dropdown options
+
+  personal_details = signal({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    employmentStatus: "",
+    county: "",
+    dateOfBirth: "",
+    selfieImageUrl: null,
+    frontPhotoIdUrl: null,
+    backPhotoIdUrl: null,
+    email: null,
+    isCaptured: false
+  });
+
   counties: string[] = [];
   CountryISO = CountryISO;
   SearchCountryField = SearchCountryField;
@@ -80,20 +87,20 @@ personal_details = signal({
     SearchCountryField.DialCode
   ];
 
-   // Signal to store phone data
   phoneSignal = signal<any>(null);
 
   onPhoneChange(phone: any) {
     this.phoneSignal.set(phone);
-    console.log('Phone Signal:', this.phoneSignal());
     const fullPhoneNumber = this.phoneSignal()?.e164Number;
     this.personal_details.update(current => ({
       ...current,
-      phoneNumber:fullPhoneNumber
+      phoneNumber: fullPhoneNumber
     }));
   }
-  
+
   maxDate: Date = new Date();
+  maxDateString: string = this.maxDate.toISOString().split('T')[0];
+
   startDate: Date = new Date(1990, 0, 1);
 
   employmentOptions: { value: EmploymentStatus; label: string }[] = [
@@ -108,19 +115,17 @@ personal_details = signal({
     private formBuilder: FormBuilder,
     private router: Router,
     private countyService: CountyService,
-    private kycService: KycService,//inject the kyc service so you can call its methods
+    private kycService: KycService,
     private snackBar: MatSnackBar
   ) {
-
-  //initialize reactive forms with validators
     this.personalInfoForm = this.formBuilder.group({
       firstName: ['', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(2),
         Validators.pattern(/^[a-zA-Z\s'-]+$/)
       ]],
       lastName: ['', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(2),
         Validators.pattern(/^[a-zA-Z\s'-]+$/)
       ]],
@@ -132,13 +137,11 @@ personal_details = signal({
   }
 
   ngOnInit() {
-    this.loadCounties();//fetch county list
-    //this.loadSavedData();
+    this.loadCounties();
     this.setupFormValidation();
   }
 
   private setupFormValidation() {
-    // set up real time validation for phone and date of birth
     this.personalInfoForm.get('phoneNumber')?.valueChanges.subscribe(value => {
       if (value && typeof value === 'object' && 'valid' in value) {
         if (value.valid) {
@@ -146,14 +149,22 @@ personal_details = signal({
         } else {
           this.personalInfoForm.get('phoneNumber')?.setErrors({ invalidNumber: true });
         }
+      } else if (value === null || value === undefined || value === '') {
+           if (!this.personalInfoForm.get('phoneNumber')?.hasError('required')) {
+               this.personalInfoForm.get('phoneNumber')?.setErrors({ required: true });
+           }
       }
     });
 
-    // Monitor date of birth changes for validation
     this.personalInfoForm.get('dateOfBirth')?.valueChanges.subscribe(value => {
       if (value) {
-        const errors = this.dateOfBirthValidator()(new FormControl(value));
+        const dateValue = (typeof value === 'string') ? new Date(value) : value;
+        const errors = this.dateOfBirthValidator()(new FormControl(dateValue));
         this.personalInfoForm.get('dateOfBirth')?.setErrors(errors);
+      } else {
+         if (!this.personalInfoForm.get('dateOfBirth')?.hasError('required')) {
+            this.personalInfoForm.get('dateOfBirth')?.setErrors({ required: true });
+         }
       }
     });
   }
@@ -161,9 +172,14 @@ personal_details = signal({
   dateOfBirthValidator() {
     return (control: FormControl): { [key: string]: any } | null => {
       if (!control.value) return { required: true };
-      
+
+      const birthDate = (typeof control.value === 'string') ? new Date(control.value) : control.value;
+
+      if (isNaN(birthDate.getTime())) {
+          return { invalidDate: true };
+      }
+
       const today = new Date();
-      const birthDate = new Date(control.value);
       let age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
 
@@ -175,39 +191,6 @@ personal_details = signal({
     };
   }
 
-  ageValidator: DateFilterFn<Date | null> = (date: Date | null): boolean => {
-    if (!date) return false;
-    const today = new Date();
-    const birthDate = new Date(date);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-
-    return age >= 18;
-  };
-
- /* loadSavedData() {
-    const savedData = localStorage.getItem('step1Data');
-    if (savedData) {
-      try {
-        const parsedData = JSON.parse(savedData);
-        const data = {
-          ...parsedData,
-          employmentStatus: parsedData.employmentStatus as EmploymentStatus,
-          dateOfBirth: parsedData.dateOfBirth ? new Date(parsedData.dateOfBirth) : null
-        };
-        this.personalInfoForm.patchValue(data);
-      } catch (error) {
-        console.error('Error parsing saved data:', error);
-        this.snackBar.open('Error loading saved data', 'Close', { duration: 3000 });
-      }
-    }
-  }*/
-
-    //fetch counties from the backend service
   loadCounties() {
     this.isLoadingCounties = true;
     this.countyService.getCounties().subscribe({
@@ -218,7 +201,7 @@ personal_details = signal({
       error: (error) => {
         console.error('Error loading counties:', error);
         this.isLoadingCounties = false;
-        this.snackBar.open('Error loading counties. Please try again.', 'Close', { 
+        this.snackBar.open('Error loading counties. Please try again.', 'Close', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
@@ -227,20 +210,22 @@ personal_details = signal({
   }
 
   onNext() {
-    if (this.personalInfoForm.valid && !this.isSubmitting) {
-      this.isSubmitting = true;//checks if the form has all required fields correct and a submission is not in progress
+    const phoneNumberControl = this.personalInfoForm.get('phoneNumber');
+    const isPhoneValid = phoneNumberControl?.value?.valid === true;
+
+    if (this.personalInfoForm.valid && isPhoneValid && !this.isSubmitting) {
+      this.isSubmitting = true;
       const formData = this.personalInfoForm.getRawValue();
-      
-      // Format phone number - get the international format,returns an object
+
       const phoneNumber = formData.phoneNumber?.e164Number || formData.phoneNumber?.number;
-      
-      // Create the payload object  to send to the backend with all required fields
+      const dateOfBirth = formData.dateOfBirth ? new Date(formData.dateOfBirth).toISOString().split('T')[0] : null;
+
       const payload = {
         firstName: formData.firstName,
         lastName: formData.lastName,
         phoneNumber: phoneNumber,
         employmentStatus: formData.employmentStatus,
-        dateOfBirth: formData.dateOfBirth,
+        dateOfBirth: dateOfBirth || new Date().toISOString().split('T')[0], // Provide a default date if null
         county: formData.county,
         selfieImageUrl: null,
         frontPhotoIdUrl: null,
@@ -249,21 +234,17 @@ personal_details = signal({
         isCaptured: false
       };
 
-      console.log('Form data before submission:', formData); // Debug log
-      console.log('Payload being sent:', payload); // Debug log
-
-      // The payload is passed th the submitPersonalDetails() method of the kyc service
       this.kycService.submitPersonalDetails(payload).subscribe({
         next: (response) => {
           console.log('Response from server:', response);
-          // if server replies successfully it stores the customerid and saves it in local storage
           const storedData = {
             ...payload,
+            dateOfBirth: formData.dateOfBirth ? new Date(formData.dateOfBirth).toISOString() : null,
             customerId: response.id || response.customerId
           };
           localStorage.setItem('step1Data', JSON.stringify(storedData));
           localStorage.setItem('customerId', storedData.customerId.toString());
-          
+
           this.router.navigate(['/step2']);
           this.snackBar.open('Personal information saved successfully', 'Close', {
             duration: 3000,
@@ -272,6 +253,7 @@ personal_details = signal({
         },
         error: (error) => {
           console.error('Error submitting form:', error);
+          this.isSubmitting = false;
           if (error.status === 409) {
             this.snackBar.open('This phone number is already registered. Please use a different number or contact support if you need help with your existing registration.', 'Close', {
               duration: 8000,
@@ -290,7 +272,11 @@ personal_details = signal({
       });
     } else {
       this.markFormGroupTouched(this.personalInfoForm);
-      this.snackBar.open('Please fill in all required fields correctly', 'Close', {
+       const message = isPhoneValid ?
+                       'Please fill in all required fields correctly' :
+                       'Please fix the errors, including the phone number';
+
+      this.snackBar.open(message, 'Close', {
         duration: 3000,
         panelClass: ['warning-snackbar']
       });
@@ -304,6 +290,9 @@ personal_details = signal({
         this.markFormGroupTouched(control);
       }
     });
+     const phoneControl = formGroup.get('phoneNumber');
+     if (phoneControl) {
+         phoneControl.markAsTouched();
+     }
   }
 }
-

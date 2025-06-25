@@ -1,135 +1,122 @@
-<div class="kyc-container">
-  <mat-card class="kyc-card">
-    <div class="header-content">
-      <div class="header-left">
-        <div class="header-icon">
-          <mat-icon>person</mat-icon>
-        </div>
-        <div class="header-text">
-          <h2>Personal Information</h2>
-          <p>Please provide your basic information</p>
-        </div>
+<ion-card class="kyc-card">
+  <div class="header-content">
+    <div class="header-left">
+      <div class="header-icon">
+        <ion-icon name="person"></ion-icon>
       </div>
-      <div class="completion-indicator">
-        <div class="progress-circle">
-          <svg width="40" height="40">
-            <circle class="progress-ring-bg" cx="20" cy="20" r="16" />
-            <circle class="progress-ring-circle" cx="20" cy="20" r="16" 
-                    [style.strokeDasharray]="'100 100'"
-                    [style.strokeDashoffset]="'66'" />
-          </svg>
-          <span class="percentage">33%</span>
-        </div>
-        <div class="step-text">
-          <span class="current-step">Step 1 of 3</span>
-          <span class="step-label">Personal Details</span>
-        </div>
+      <div class="header-text">
+        <h2>Personal Information</h2>
+        <p>Please provide your basic information</p>
       </div>
     </div>
-
-     
-     <app-step-progress [currentStep]="1"></app-step-progress> 
-<!-- formgroup allows to manage multiple form controls together validating form data as a group-->
-    <form [formGroup]="personalInfoForm" class="form-section" (ngSubmit)="onNext()">
-  <div class="form-row">
-    <mat-form-field appearance="outline">
-      <mat-label>First Name</mat-label>
-      <input matInput formControlName="firstName" placeholder="Enter your first name" autocomplete="name" />
-      <mat-error *ngIf="personalInfoForm.get('firstName')?.hasError('required')">First name is required</mat-error>
-      <mat-error *ngIf="personalInfoForm.get('firstName')?.hasError('minlength')">Name must be at least 2 characters</mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Last Name</mat-label>
-      <input matInput formControlName="lastName" placeholder="Enter your last name" autocomplete="name" />
-      <mat-error *ngIf="personalInfoForm.get('lastName')?.hasError('required')">Last name is required</mat-error>
-      <mat-error *ngIf="personalInfoForm.get('lastName')?.hasError('minlength')">Name must be at least 2 characters</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="form-row">
-    <div class="phone-field">
-      <label id="phone-label">Phone Number</label>
-      <div class="phone-input-wrapper">
-        <ngx-intl-tel-input
-          formControlName="phoneNumber"
-          [cssClass]="'custom-tel-input'"
-          [preferredCountries]="preferredCountries"
-          [enableAutoCountrySelect]="true"
-          [enablePlaceholder]="true"
-          [searchCountryField]="searchCountryField"
-          [selectFirstCountry]="false"
-          [selectedCountryISO]="CountryISO.Kenya"
-          [maxLength]="9"
-          [phoneValidation]="true"
-          [separateDialCode]="true"
-          [searchCountryPlaceholder]="'Search country...'"
-          [customPlaceholder]="'Enter phone number'"
-          name="phoneNumber"
-          (valueChange)="onPhoneChange($event)"
-          [attr.aria-labelledby]="'phone-label'"
-          [attr.aria-required]="true"
-          autocomplete="tel">
-        </ngx-intl-tel-input>
+    <div class="completion-indicator">
+      <div class="progress-circle">
+        <svg width="40" height="40">
+          <circle class="progress-ring-bg" cx="20" cy="20" r="16" />
+          <circle class="progress-ring-circle" cx="20" cy="20" r="16"
+                  [style.strokeDasharray]="'100 100'"
+                  [style.strokeDashoffset]="'66'" />
+        </svg>
+        <span class="percentage">33%</span>
       </div>
-      <div *ngIf="personalInfoForm.get('phoneNumber')?.touched && personalInfoForm.get('phoneNumber')?.invalid"
-           class="error-message"
-           role="alert">
-        Please enter a valid phone number
+      <div class="step-text">
+        <span class="current-step">Step 1 of 3</span>
+        <span class="step-label">Personal Details</span>
       </div>
     </div>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Employment Status</mat-label>
-      <mat-select formControlName="employmentStatus">
-        <mat-option *ngFor="let option of employmentOptions" [value]="option.value">{{ option.label }}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="personalInfoForm.get('employmentStatus')?.hasError('required')">Employment status is required</mat-error>
-    </mat-form-field>
   </div>
 
-  <div class="form-row">
-    <mat-form-field appearance="outline">
-      <mat-label>Date of Birth</mat-label>
-      <input matInput formControlName="dateOfBirth"
-             [matDatepicker]="picker"
-             [max]="maxDate"
-             [matDatepickerFilter]="ageValidator"
-             placeholder="YYYY/MM/DD"
-             autocomplete="bday" />
-      <mat-datepicker-toggle matSuffix [for]="picker" aria-label="Open date picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
-      <mat-error *ngIf="personalInfoForm.get('dateOfBirth')?.hasError('required')">Date of birth is required</mat-error>
-      <mat-error *ngIf="personalInfoForm.get('dateOfBirth')?.hasError('underage')">You must be at least 18 years old</mat-error>
-    </mat-form-field>
+  <app-step-progress [currentStep]="1"></app-step-progress>
 
-    <mat-form-field appearance="outline" class="county-field">
-      <mat-label>County</mat-label>
-      <mat-select formControlName="county">
-        <div class="loading-overlay" *ngIf="isLoadingCounties">
-          <div class="loading-spinner" role="progressbar" aria-label="Loading counties"></div>
+  <form [formGroup]="personalInfoForm" class="form-section" (ngSubmit)="onNext()">
+    <div class="form-row">
+      <ion-item class="form-item" lines="none">
+        <ion-label position="floating">First Name</ion-label>
+        <ion-input type="text" formControlName="firstName" placeholder="Enter your first name" autocomplete="name"></ion-input>
+        <span *ngIf="personalInfoForm.get('firstName')?.hasError('required') && personalInfoForm.get('firstName')?.touched" class="error-message visible" role="alert">First name is required</span>
+        <span *ngIf="personalInfoForm.get('firstName')?.hasError('minlength') && personalInfoForm.get('firstName')?.touched" class="error-message visible" role="alert">Name must be at least 2 characters</span>
+        <span *ngIf="personalInfoForm.get('firstName')?.hasError('pattern') && personalInfoForm.get('firstName')?.touched" class="error-message visible" role="alert">Only letters, spaces, hyphens, and apostrophes allowed</span>
+      </ion-item>
+
+      <ion-item class="form-item" lines="none">
+        <ion-label position="floating">Last Name</ion-label>
+        <ion-input type="text" formControlName="lastName" placeholder="Enter your last name" autocomplete="name"></ion-input>
+        <span *ngIf="personalInfoForm.get('lastName')?.hasError('required') && personalInfoForm.get('lastName')?.touched" class="error-message visible" role="alert">Last name is required</span>
+        <span *ngIf="personalInfoForm.get('lastName')?.hasError('minlength') && personalInfoForm.get('lastName')?.touched" class="error-message visible" role="alert">Name must be at least 2 characters</span>
+         <span *ngIf="personalInfoForm.get('lastName')?.hasError('pattern') && personalInfoForm.get('lastName')?.touched" class="error-message visible" role="alert">Only letters, spaces, hyphens, and apostrophes allowed</span>
+      </ion-item>
+    </div>
+
+    <div class="form-row">
+      <div class="phone-field">
+          <ion-item class="phone-item" lines="none">
+              <ion-label position="floating">Phone Number</ion-label>
+            <div class="phone-input-wrapper">
+                <ngx-intl-tel-input
+                formControlName="phoneNumber"
+                [cssClass]="'custom-tel-input'"
+                [preferredCountries]="preferredCountries"
+                [enableAutoCountrySelect]="true"
+                [enablePlaceholder]="true"
+                [searchCountryField]="searchCountryField"
+                [selectFirstCountry]="false"
+                [selectedCountryISO]="CountryISO.Kenya"
+                [maxLength]="15"
+                [phoneValidation]="true"
+                [separateDialCode]="true"
+                [searchCountryPlaceholder]="'Search country...'"
+                [customPlaceholder]="'Enter phone number'"
+                name="phoneNumber"
+                (valueChange)="onPhoneChange($event)"
+                [attr.aria-labelledby]="'phone-label'"
+                [attr.aria-required]="true"
+                autocomplete="tel">
+            </ngx-intl-tel-input>
+            </div>
+        </ion-item>
+        <div *ngIf="personalInfoForm.get('phoneNumber')?.touched && personalInfoForm.get('phoneNumber')?.invalid"
+             class="error-message visible"
+             role="alert">
+          Please enter a valid phone number
         </div>
-        <mat-option *ngFor="let county of counties" [value]="county">{{ county }}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="personalInfoForm.get('county')?.hasError('required')">County is required</mat-error>
-    </mat-form-field>
-  </div>
+      </div>
 
-  <div class="action-buttons">
-    <button mat-stroked-button class="back-button nav-button" disabled type="button" aria-label="Back button (disabled)">
-      <mat-icon>arrow_back</mat-icon> Back
-    </button>
-    <button mat-flat-button color="primary" class="next-button nav-button" type="submit" aria-label="Next button">
-      <span>Next</span>
-      <mat-icon *ngIf="!isSubmitting">arrow_forward</mat-icon>
-      <div class="loading-spinner" *ngIf="isSubmitting" role="progressbar" aria-label="Submitting form"></div>
-    </button>
-  </div>
-</form>
+      <ion-item class="form-item" lines="none">
+        <ion-label position="floating">Employment Status</ion-label>
+        <ion-select formControlName="employmentStatus" placeholder="Select status" interface="popover">
+          <ion-select-option *ngFor="let option of employmentOptions" [value]="option.value">{{ option.label }}</ion-select-option>
+        </ion-select>
+        <span *ngIf="personalInfoForm.get('employmentStatus')?.hasError('required') && personalInfoForm.get('employmentStatus')?.touched" class="error-message visible" role="alert">Employment status is required</span>
+      </ion-item>
+    </div>
 
-      
-    
-  </mat-card>
+    <div class="form-row">
+      <ion-item class="form-item" lines="none">
+        <ion-label position="floating">Date of Birth</ion-label>
+        <ion-input type="date" formControlName="dateOfBirth" [max]="maxDateString" placeholder="YYYY/MM/DD" autocomplete="bday"></ion-input>
+        <ion-icon name="calendar-outline" slot="end"></ion-icon>
+        <span *ngIf="personalInfoForm.get('dateOfBirth')?.hasError('required') && personalInfoForm.get('dateOfBirth')?.touched" class="error-message visible" role="alert">Date of birth is required</span>
+        <span *ngIf="personalInfoForm.get('dateOfBirth')?.hasError('underage') && personalInfoForm.get('dateOfBirth')?.touched" class="error-message visible" role="alert">You must be at least 18 years old</span>
+      </ion-item>
 
+      <ion-item class="form-item county-field" lines="none">
+        <ion-label position="floating">County</ion-label>
+        <ion-select formControlName="county" placeholder="Select county" interface="popover">
+          <ion-select-option *ngFor="let county of counties" [value]="county">{{ county }}</ion-select-option>
+        </ion-select>
+        <span *ngIf="personalInfoForm.get('county')?.hasError('required') && personalInfoForm.get('county')?.touched" class="error-message visible" role="alert">County is required</span>
+      </ion-item>
+    </div>
 
-
+    <div class="action-buttons">
+      <ion-button fill="outline" class="back-button nav-button" [disabled]="true" type="button" aria-label="Back button (disabled)">
+        <ion-icon name="arrow-back" slot="start"></ion-icon> Back
+      </ion-button>
+      <ion-button fill="solid" color="primary" class="next-button nav-button" type="submit" [disabled]="isSubmitting || personalInfoForm.invalid" aria-label="Next button">
+        <span>Next</span>
+        <ion-icon *ngIf="!isSubmitting" name="arrow-forward" slot="end"></ion-icon>
+        <div class="loading-spinner" *ngIf="isSubmitting" role="progressbar" aria-label="Submitting form"></div>
+      </ion-button>
+    </div>
+  </form>
+</ion-card>

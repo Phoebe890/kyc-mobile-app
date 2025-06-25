@@ -47,7 +47,7 @@ import { IonicModule } from '@ionic/angular';
     MatNativeDateModule,
     HttpClientModule,
     MatSnackBarModule,
-    IonicModule.forRoot({})
+    IonicModule.forRoot()
   ],
   providers: [
     CountyService
