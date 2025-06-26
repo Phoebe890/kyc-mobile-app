@@ -14,7 +14,7 @@ import {
 } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-welcome',//defines the html tag for the component
+  selector: 'app-welcome',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,9 +23,9 @@ import {
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent {//starts the component class
+export class WelcomeComponent {
   constructor(private router: Router) {
-    // Register the icons
+    // Register the icons needed for this page
     addIcons({
       shieldCheckmark,
       person,
@@ -40,4 +40,4 @@ export class WelcomeComponent {//starts the component class
   onContinue() {
     this.router.navigate(['/step1']);
   }
-} 
+}

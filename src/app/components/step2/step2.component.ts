@@ -18,7 +18,17 @@ import { StepProgressComponent } from '../../shared/components/step-progress/ste
 
 import { Step1FormData, EmploymentStatus } from '../../models/step1.interface';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { addIcons } from 'ionicons';
+import { 
+  idCard, 
+  checkmark, 
+  arrowBack, 
+  arrowForward,
+  cameraOutline,
+  cloudUploadOutline,
+  trashOutline,
+  person // For the "Personal Info" step in the stepper
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-step2',
@@ -61,7 +71,16 @@ export class Step2Component implements OnInit {
     private router: Router,
     private kycService: KycService,
     private snackBar: MatSnackBar
-  ) {}
+  ) {addIcons({
+      'idCard': idCard,
+      'checkmark': checkmark,
+      'arrow-back': arrowBack,
+      'arrow-forward': arrowForward,
+      'cloud-upload-outline': cloudUploadOutline,
+      'trash-outline': trashOutline,
+      'person': person, // Add the person icon for the stepper
+      'camera-outline': cameraOutline
+    });}
 
   ngOnInit() {
     this.idForm = this.formBuilder.group({
@@ -293,9 +312,9 @@ export class Step2Component implements OnInit {
              this.saveStep2Draft();
              this.router.navigate(['/step3']);
         } else {
-             this.snackBar.open('Please complete the current step before proceeding', 'Close', { duration: 3000 });
-             this.markFormGroupTouched(this.idForm);
-             this.markFormGroupTouched(this.documentForm);
+              this.snackBar.open('Please complete the current step before proceeding', 'Close', { duration: 3000 });
+              this.markFormGroupTouched(this.idForm);
+              this.markFormGroupTouched(this.documentForm);
         }
      }
   }

@@ -1,5 +1,6 @@
 <div class="kyc-container">
   <ion-card class="kyc-card">
+    <!-- Header Section (No changes) -->
     <div class="header-content">
       <div class="header-left">
         <div class="header-icon">
@@ -35,42 +36,36 @@
         <p class="form-description">We'll send you important updates and notifications here</p>
       </div>
 
-      <ion-item class="form-item" lines="none">
-        <ion-label position="stacked">Email address</ion-label>
-        <ion-input
-          formControlName="email"
-          type="email"
-          placeholder="e.g., name@example.com">
-        </ion-input>
-        <ion-icon name="mail-outline" slot="end"></ion-icon>
-      </ion-item>
+      <!-- --- EMAIL FIELD WRAPPER --- -->
+      <div class="field-wrapper">
+        <!-- --- MODIFIED ion-item --- -->
+        <ion-item class="form-item" lines="none">
+          <!-- REMOVED: <ion-label position="stacked">Email address</ion-label> -->
+          <ion-input
+            formControlName="email"
+            type="email"
+            placeholder="Email Address*">
+          </ion-input>
+          <ion-icon name="mail-outline" slot="end"></ion-icon>
+        </ion-item>
+        
+        <!-- Error messages now go in a container for better positioning -->
+        <div *ngIf="emailForm.get('email')?.invalid && emailForm.get('email')?.touched" class="error-message-container">
+          <span *ngIf="emailForm.get('email')?.hasError('required')" class="error-message">Email address is required</span>
+          <span *ngIf="emailForm.get('email')?.hasError('email')" class="error-message">Please enter a valid email address</span>
+        </div>
+      </div>
+      <!-- --- END OF EMAIL FIELD WRAPPER --- -->
 
       <p class="form-hint">We'll never share your email with anyone else</p>
-      <span *ngIf="emailForm.get('email')?.hasError('required') && emailForm.get('email')?.touched" class="error-message visible" role="alert">
-        Email address is required
-      </span>
-      <span *ngIf="emailForm.get('email')?.hasError('email') && emailForm.get('email')?.touched" class="error-message visible" role="alert">
-        Please enter a valid email address
-      </span>
 
-
+      <!-- Action Buttons (No changes) -->
       <div class="action-buttons">
-        <ion-button fill="outline"
-                class="back-button nav-button"
-                type="button"
-                [disabled]="isSubmitting"
-                (click)="onBack()"
-                aria-label="Back button">
+        <ion-button fill="outline" class="back-button nav-button" type="button" [disabled]="isSubmitting" (click)="onBack()">
           <ion-icon name="arrow-back" slot="start"></ion-icon>
           Back
         </ion-button>
-        <ion-button fill="solid"
-                color="primary"
-                class="next-button nav-button submit-button"
-                type="submit"
-                [disabled]="emailForm.invalid || isSubmitting"
-                (click)="onSubmit()"
-                aria-label="Submit button">
+        <ion-button fill="solid" color="primary" class="next-button nav-button submit-button" type="submit" [disabled]="emailForm.invalid || isSubmitting">
           <span>Submit</span>
           <ion-icon *ngIf="!isSubmitting" name="send" slot="end"></ion-icon>
           <mat-spinner *ngIf="isSubmitting" diameter="20" class="spinner-in-button"></mat-spinner>

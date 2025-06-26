@@ -1,50 +1,50 @@
 <ion-content class="welcome-container">
   <ion-card class="welcome-card">
     <div class="welcome-header">
+      <!-- The wrapper div can be removed for cleaner code -->
       <ion-icon name="shield-checkmark" class="welcome-icon"></ion-icon>
       <h1>Welcome to KYC Verification</h1>
     </div>
     
-    <ion-card-content>
-      <div class="welcome-content">
-        <p class="welcome-description">
-          We're here to help you complete your Know Your Customer (KYC) verification process. This will only take a few minutes.
-        </p>
-        
-        <div class="steps-overview">
-          <h2>What you'll need:</h2>
-          <ul>
-            <li>
-              <ion-icon name="person" class="step-icon"></ion-icon>
-              <span>Personal Information</span>
-            </li>
-            <li>
-              <ion-icon name="id-card" class="step-icon"></ion-icon>
-              <span>Valid ID Document</span>
-            </li>
-            <li>
-              <ion-icon name="camera" class="step-icon"></ion-icon>
-              <span>A Selfie for Verification</span>
-            </li>
-            <li>
-              <ion-icon name="mail" class="step-icon"></ion-icon>
-              <span>Active Email Address</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="time-estimate">
-          <ion-icon name="time-outline"></ion-icon>
-          <span>Estimated time: 5-10 minutes</span>
-        </div>
+    <div class="welcome-content">
+      <p class="welcome-description">
+        We're here to help you complete your Know Your Customer (KYC) verification process. This will only take a few minutes.
+      </p>
+      
+      <div class="steps-overview">
+        <h2>What you'll need:</h2>
+        <ul>
+          <li>
+            <ion-icon name="person" class="step-icon"></ion-icon>
+            <span>Personal Information</span>
+          </li>
+          <li>
+            <ion-icon name="id-card" class="step-icon"></ion-icon>
+            <span>Valid ID Document</span>
+          </li>
+          <li>
+            <ion-icon name="camera" class="step-icon"></ion-icon>
+            <span>A Selfie for Verification</span>
+          </li>
+          <li>
+            <ion-icon name="mail" class="step-icon"></ion-icon>
+            <span>Active Email Address</span>
+          </li>
+        </ul>
       </div>
-    </ion-card-content>
 
-    <ion-card-content class="button-container">
-      <ion-button class="material-button" (click)="onContinue()">
+      <div class="time-estimate">
+        <ion-icon name="time-outline"></ion-icon>
+        <span>Estimated time: 5-10 minutes</span>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <!-- The icon should be first with slot="start" to match the image -->
+      <ion-button class="get-started-button" (click)="onContinue()">
+        <ion-icon name="arrow-forward" slot="start"></ion-icon>
         Get Started
-        <ion-icon name="arrow-forward" slot="end"></ion-icon>
       </ion-button>
-    </ion-card-content>
+    </div>
   </ion-card>
-</ion-content> 
+</ion-content>

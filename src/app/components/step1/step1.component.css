@@ -1,5 +1,4 @@
-
-
+/* Card and Header Styles */
 ion-card.kyc-card {
   max-width: 900px;
   margin: 1.5rem auto;
@@ -7,8 +6,10 @@ ion-card.kyc-card {
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 0;
+  /* --- FIX: Allows the card to expand and show content outside its initial bounds --- */
+  overflow: visible; 
 }
-
+/* ... all header and progress indicator styles are correct ... */
 .header-content {
   display: flex;
   align-items: center;
@@ -18,14 +19,12 @@ ion-card.kyc-card {
   margin-bottom: 1.5rem;
   border-bottom: 1px solid #E2E8F0;
 }
-
 .header-left {
   display: flex;
   align-items: center;
   gap: 1rem;
   flex: 1;
 }
-
 .header-icon {
   display: flex;
   align-items: center;
@@ -36,32 +35,9 @@ ion-card.kyc-card {
   border-radius: 50%;
   margin-right: 1rem;
 }
-
-.header-icon ion-icon {
-  color: #1976d2;
-  font-size: 24px;
-  width: 24px;
-  height: 24px;
-}
-
-.header-text {
-  flex: 1;
-}
-
-.header-text h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: #1E293B;
-  line-height: 1.2;
-}
-
-.header-text p {
-  margin: 0.5rem 0 0;
-  color: #64748B;
-  font-size: 0.875rem;
-}
-
+.header-icon ion-icon { color: #1976d2; font-size: 24px; }
+.header-text h2 { margin: 0; font-size: 1.5rem; font-weight: 500; color: #1E293B; }
+.header-text p { margin: 0.5rem 0 0; color: #64748B; font-size: 0.875rem; }
 .completion-indicator {
   display: flex;
   align-items: center;
@@ -72,7 +48,6 @@ ion-card.kyc-card {
   border-radius: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-
 .progress-circle {
   position: relative;
   width: 40px;
@@ -83,398 +58,113 @@ ion-card.kyc-card {
   align-items: center;
   justify-content: center;
 }
+.progress-circle svg { transform: rotate(-90deg); position: absolute; }
+.progress-ring-bg { fill: none; stroke: #e0e0e0; stroke-width: 3; }
+.progress-ring-circle { fill: none; stroke: #1976d2; stroke-width: 3; transition: stroke-dashoffset 0.3s ease; }
+.percentage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: 500; color: #1976d2; }
+.step-text { display: flex; flex-direction: column; }
+.current-step { font-size: 12px; color: #64748B; margin-bottom: 2px; }
+.step-label { font-size: 14px; font-weight: 500; color: #1E293B; }
 
-.progress-circle svg {
-  transform: rotate(-90deg);
-  position: absolute;
-}
-
-.progress-ring-bg {
-  fill: none;
-  stroke: #e0e0e0;
-  stroke-width: 3;
-}
-
-.progress-ring-circle {
-  fill: none;
-  stroke: #1976d2;
-  stroke-width: 3;
-  transition: stroke-dashoffset 0.3s ease;
-}
-
-.percentage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 12px;
-  font-weight: 500;
-  color: #1976d2;
-}
-
-.step-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.current-step {
-  font-size: 12px;
-  color: #64748B;
-  margin-bottom: 2px;
-}
-
-.step-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #1E293B;
-}
-
-.form-section {
-  padding: 24px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
+/* Form Layout */
+.form-section { padding: 24px; }
 .form-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-bottom: 24px;
-  align-items: flex-start;
+  gap: 24px; /* A bit smaller gap is fine */
+  /* --- FIX: Increase bottom margin to create space for error messages --- */
+  margin-bottom: 40px; 
+  align-items: flex-end;
+}
+.field-wrapper {
+  position: relative;
+  width: 100%;
 }
 
+/* Unified Form Field Styles */
 ion-item.form-item,
 ion-item.phone-item {
-  --background: #F8FAFC;
-  --border-color: var(--ion-item-border-color, #E2E8F0);
+  --background: #f8fafc;
+  --border-color: #d1d5db;
   --border-radius: 8px;
-  --border-width: 1px !important;
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --inner-padding-end: 0;
-  --inner-padding-start: 0;
-  --min-height: 56px;
+  --border-width: 1px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --min-height: 44px;
   --highlight-height: 0;
-  --ripple-color: transparent;
-  border: 1px solid var(--border-color);
   box-shadow: none;
-  contain: layout style;
-  overflow: visible;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+ion-item.form-item { cursor: pointer; }
+ion-item.phone-item { cursor: default; }
+
+/* Field States */
+ion-item.item-has-focus,
+#popover-trigger:active { --border-color: #1976d2; box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1); }
+ion-item.ion-invalid.ion-touched {
+  --border-color: #EF4444 !important;
 }
 
-ion-item.form-item.item-lines-none,
-ion-item.phone-item.item-lines-none {
-   --border-width: 0 !important;
-   border: 1px solid var(--border-color);
-}
+/* Input & Select Text Styles */
+ion-item ion-input,
+ion-item ion-select { --color: #1E293B; --placeholder-color: #6b7280; --placeholder-opacity: 1; font-size: 14px; cursor: text; }
+ion-item ion-select { width: 100%; }
 
-ion-item.form-item.item-has-focus,
-ion-item.phone-item.item-has-focus {
-  --border-color: #4285f4;
-  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
-}
+/* Static Label for Phone Number */
+.static-label { font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 8px; display: block; }
 
-ion-item.form-item:hover,
-ion-item.phone-item:hover {
-  --border-color: #94A3B8;
-}
+/* Date of Birth Trigger Field Styles */
+#popover-trigger ion-label { color: #6b7280; font-size: 14px; }
+#popover-trigger .datetime-value { font-size: 14px; color: #1E293B; }
 
-ion-item.form-item.ion-invalid.ion-touched {
-  --border-color: #EF4444;
-}
+/* Phone Field Integration & Dropdown Appearance */
+.phone-field :host ::ng-deep .iti { width: 100%; }
+.phone-field :host ::ng-deep .iti__selected-flag { background-color: transparent !important; border: none !important; outline: none !important; padding: 0 0 0 12px !important; }
+.phone-field :host ::ng-deep .iti input { background-color: transparent !important; border: none !important; box-shadow: none !important; outline: none !important; width: 100% !important; margin: 0 !important; padding: 0 12px !important; font-size: 14px !important; color: #1E293B !important; cursor: text; }
+.phone-field :host ::ng-deep .iti input::placeholder { color: #6b7280 !important; opacity: 1 !important; }
+:host ::ng-deep .iti__country-list { z-index: 9999 !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-radius: 8px; }
 
-ion-item.form-item ion-label[position="floating"],
-ion-item.phone-item ion_label[position="floating"] {
-  font-size: 16px;
-  color: #64748B;
-  font-weight: 400;
-  transform-origin: left top;
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), color 0.2s ease-in-out;
-  --color: #64748B;
-  --color-focused: #4285f4;
-}
+/* Error Message Styling */
+.error-message-container { position: absolute; bottom: -24px; left: 0; }
+.error-message { color: #EF4444; font-size: 12px; font-weight: 400; display: block; margin-top: 4px; }
 
-ion-item.form-item.item-has-value ion-label,
-ion-item.form-item.item-has-focus ion-label,
-ion-item.phone-item.item-has-value ion_label,
-ion-item.phone-item.item-has-focus ion_label {
-    font-size: 12px;
-    transform: translate3d(0, -100%, 0) scale(0.75);
-    --color: #4285f4;
-}
-
-ion-item.form-item ion-input,
-ion-item.form-item ion-select {
-    --padding-top: 0px;
-    --padding-bottom: 0px;
-    --padding-start: 0px;
-    --padding-end: 0px;
-    --color: #1E293B;
-    --placeholder-color: #64748B;
-    --placeholder-opacity: 1;
-    font-size: 16px;
-    line-height: 1.5;
-    flex: 1;
-    min-height: 32px;
-    padding-top: 16px !important;
-    padding-bottom: 8px !important;
-}
-
-ion-item.form-item ion-select {
-    padding-inline-end: 8px;
-}
-
-.phone-field .phone-input-wrapper {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    min-height: var(--min-height);
-    padding-top: 16px;
-    padding-bottom: 8px;
-}
-
-.phone-field .phone-input-wrapper :host ::ng-deep .iti input {
-    height: auto !important;
-    padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    font-size: 16px !important;
-    color: #1E293B !important;
-    background-color: transparent !important;
-    width: calc(100% - var(--dial-code-width, 90px));
-    margin: 0 !important;
-    box-shadow: none !important;
-    line-height: 1.5 !important;
-    outline: none !important;
-    min-height: 32px;
-}
-
-.phone-field .phone-input-wrapper :host ::ng-deep .iti__selected-flag {
-    height: auto !important;
-    min-height: var(--min-height);
-    background-color: transparent !important;
-    padding: 0 16px 0 8px !important;
-    border-right: 1px solid #E2E8F0;
-    display: flex;
-    align-items: center;
-}
-
-.phone-field .phone-input-wrapper :host ::ng-deep .iti {
-    display: flex;
-    width: 100%;
-    align-items: center;
-}
-
-
-
-:host ::ng-deep .iti__country-list {
-  position: absolute;
-  z-index: 9999;
-  max-height: 250px;
-  overflow-y: auto;
-  background-color: white;
-  border: 1px solid #E2E8F0;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  margin-top: 4px;
-  width: 350px;
-}
-
-:host ::ng-deep .iti__search-container {
-  padding: 12px;
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 2;
-  border-bottom: 1px solid #E2E8F0;
-}
-
-:host ::ng-deep .iti__search-input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #E2E8F0;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #1E293B;
-  background: #F8FAFC;
-  transition: all 0.2s ease;
-}
-
-:host ::ng-deep .iti__country {
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-:host ::ng-deep .iti__country:hover {
-  background-color: #F1F5F9;
-}
-
-:host ::ng-deep .iti__country.iti__highlight {
-  background-color: #E2E8F0;
-}
-
-.error-message {
-  color: #EF4444;
-  font-size: 12px;
-  margin-top: 4px;
-  font-weight: 500;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  display: block;
-  width: 100%;
-  padding-inline-start: 16px;
-}
-
-.error-message.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-ion-item.form-item ion-icon[slot="end"] {
-    color: #64748B;
-    font-size: 20px;
-    margin-inline-start: 8px;
-}
-
+/* Icon & Button Styles */
+ion-item ion-icon[slot="end"] { color: #6b7280; font-size: 20px; }
 .action-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 24px;
-  padding: 0;
-  border-top: 1px solid #e2e8f0;
+  margin-top: 16px;
   padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
 }
-
 .nav-button {
   min-width: 120px;
   --height: 40px;
   font-size: 14px;
   font-weight: 500;
-  text-transform: uppercase;
-  --border-radius: 4px;
-  --padding-start: 16px;
-  --padding-end: 16px;
+  text-transform: none;
+  --border-radius: 8px;
 }
-
-ion-button.back-button {
-  --border-color: #94A3B8;
-  --color: #64748B;
+ion-button.back-button { --border-color: #1976d2; --color: #1976d2; }
+ion-button.next-button { --background: #1976d2; --color: white; margin-left: auto; }
+.nav-button ion-icon { font-size: 20px; }
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin: 0 auto;
 }
-
-ion-button.next-button {
-  --background: #1976d2;
-  --color: white;
-  margin-left: auto;
-}
-
-.nav-button ion-icon {
-  font-size: 20px;
-}
-
-.spinner-in-button {
-   margin-inline-start: 8px;
-}
-
-@media (max-width: 768px) {
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .phone-field {
-    margin-top: 0;
-  }
-
-  :host ::ng-deep .iti__country-list {
-    width: calc(100% - 32px);
-    left: 16px !important;
-    right: 16px !important;
-  }
-
-  .action-buttons {
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1rem;
-      padding-top: 12px;
-  }
-
-   .action-buttons ion-button {
-       width: 100%;
-       min-width: unset;
-       margin-left: 0;
-   }
-
-   ion-item.form-item,
-   ion-item.phone-item {
-     --padding-start: 16px;
-     --padding-end: 16px;
-   }
-}
-
-@media (max-width: 480px) {
-  .form-section {
-    padding: 16px;
-  }
-
-  ion-item.form-item,
-  ion-item.phone-item,
-  .phone-field .phone-input-wrapper {
-    --min-height: 48px;
-  }
-
-   ion-item.form-item ion-input,
-   ion-item.form-item ion-select,
-   .phone-field .phone-input-wrapper :host ::ng-deep .iti input,
-   .phone-field .phone-input-wrapper :host ::ng-deep .iti__selected-flag {
-     padding-top: 12px !important;
-     padding-bottom: 6px !important;
-     min-height: 28px;
-   }
-
-
-  .action-buttons ion_button {
-       --height: 48px;
-   }
-}
-
-ion-item.form-item.ion-focused,
-ion-item.phone-item.ion-focused {
-  outline: none;
-}
-
-@media (forced-colors: active) {
-  ion-item.form-item,
-  ion-item.phone-item {
-    border: 2px solid ButtonText !important;
-  }
-
-  ion-item.form-item.ion-focused,
-  ion-item.phone-item.ion-focused {
-     outline: 2px solid Highlight !important;
-     box-shadow: none !important;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-:host ::ng-deep .iti__country-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-:host ::ng-deep .iti__country-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-:host ::ng-deep .iti__country-list::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-:host ::ng-deep .iti__country-list::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
+/* Responsive Media Queries */
+@media (max-width: 1024px) { .header-content { flex-direction: column; align-items: flex-start; gap: 1rem; } .completion-indicator { margin-left: 0; width: 100%; } }
+@media (max-width: 768px) { .form-row { grid-template-columns: 1fr; gap: 40px; margin-bottom: 40px; } .action-buttons { flex-direction: column; gap: 1rem; } .action-buttons ion-button { width: 100%; margin-left: 0; } }
+@media (max-width: 480px) { .form-section { padding: 16px; } .header-content { padding: 1rem; } .header-text h2 { font-size: 1.25rem; } }

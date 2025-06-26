@@ -1,4 +1,5 @@
 <ion-card class="kyc-card">
+  <!-- Header Section -->
   <div class="header-content">
     <div class="header-left">
       <div class="header-icon">
@@ -28,94 +29,110 @@
 
   <app-step-progress [currentStep]="1"></app-step-progress>
 
+  <!-- Form Section -->
   <form [formGroup]="personalInfoForm" class="form-section" (ngSubmit)="onNext()">
     <div class="form-row">
-      <ion-item class="form-item" lines="none">
-        <ion-label position="floating">First Name</ion-label>
-        <ion-input type="text" formControlName="firstName" placeholder="Enter your first name" autocomplete="name"></ion-input>
-        <span *ngIf="personalInfoForm.get('firstName')?.hasError('required') && personalInfoForm.get('firstName')?.touched" class="error-message visible" role="alert">First name is required</span>
-        <span *ngIf="personalInfoForm.get('firstName')?.hasError('minlength') && personalInfoForm.get('firstName')?.touched" class="error-message visible" role="alert">Name must be at least 2 characters</span>
-        <span *ngIf="personalInfoForm.get('firstName')?.hasError('pattern') && personalInfoForm.get('firstName')?.touched" class="error-message visible" role="alert">Only letters, spaces, hyphens, and apostrophes allowed</span>
-      </ion-item>
-
-      <ion-item class="form-item" lines="none">
-        <ion-label position="floating">Last Name</ion-label>
-        <ion-input type="text" formControlName="lastName" placeholder="Enter your last name" autocomplete="name"></ion-input>
-        <span *ngIf="personalInfoForm.get('lastName')?.hasError('required') && personalInfoForm.get('lastName')?.touched" class="error-message visible" role="alert">Last name is required</span>
-        <span *ngIf="personalInfoForm.get('lastName')?.hasError('minlength') && personalInfoForm.get('lastName')?.touched" class="error-message visible" role="alert">Name must be at least 2 characters</span>
-         <span *ngIf="personalInfoForm.get('lastName')?.hasError('pattern') && personalInfoForm.get('lastName')?.touched" class="error-message visible" role="alert">Only letters, spaces, hyphens, and apostrophes allowed</span>
-      </ion-item>
-    </div>
-
-    <div class="form-row">
-      <div class="phone-field">
-          <ion-item class="phone-item" lines="none">
-              <ion-label position="floating">Phone Number</ion-label>
-            <div class="phone-input-wrapper">
-                <ngx-intl-tel-input
-                formControlName="phoneNumber"
-                [cssClass]="'custom-tel-input'"
-                [preferredCountries]="preferredCountries"
-                [enableAutoCountrySelect]="true"
-                [enablePlaceholder]="true"
-                [searchCountryField]="searchCountryField"
-                [selectFirstCountry]="false"
-                [selectedCountryISO]="CountryISO.Kenya"
-                [maxLength]="15"
-                [phoneValidation]="true"
-                [separateDialCode]="true"
-                [searchCountryPlaceholder]="'Search country...'"
-                [customPlaceholder]="'Enter phone number'"
-                name="phoneNumber"
-                (valueChange)="onPhoneChange($event)"
-                [attr.aria-labelledby]="'phone-label'"
-                [attr.aria-required]="true"
-                autocomplete="tel">
-            </ngx-intl-tel-input>
-            </div>
+      <!-- First Name -->
+      <div class="field-wrapper">
+        <ion-item class="form-item" lines="none">
+          <ion-input type="text" formControlName="firstName" placeholder="First Name*" autocomplete="name"></ion-input>
         </ion-item>
-        <div *ngIf="personalInfoForm.get('phoneNumber')?.touched && personalInfoForm.get('phoneNumber')?.invalid"
-             class="error-message visible"
-             role="alert">
-          Please enter a valid phone number
+        <div *ngIf="firstName?.invalid && firstName?.touched" class="error-message-container">
+          <span *ngIf="firstName?.hasError('required')" class="error-message">First name is required</span>
+          <span *ngIf="firstName?.hasError('minlength')" class="error-message">Name is too short</span>
+          <span *ngIf="firstName?.hasError('pattern')" class="error-message">Invalid characters</span>
         </div>
       </div>
-
-      <ion-item class="form-item" lines="none">
-        <ion-label position="floating">Employment Status</ion-label>
-        <ion-select formControlName="employmentStatus" placeholder="Select status" interface="popover">
-          <ion-select-option *ngFor="let option of employmentOptions" [value]="option.value">{{ option.label }}</ion-select-option>
-        </ion-select>
-        <span *ngIf="personalInfoForm.get('employmentStatus')?.hasError('required') && personalInfoForm.get('employmentStatus')?.touched" class="error-message visible" role="alert">Employment status is required</span>
-      </ion-item>
+      <!-- Last Name -->
+      <div class="field-wrapper">
+        <ion-item class="form-item" lines="none">
+          <ion-input type="text" formControlName="lastName" placeholder="Last Name*" autocomplete="name"></ion-input>
+        </ion-item>
+        <div *ngIf="lastName?.invalid && lastName?.touched" class="error-message-container">
+          <span *ngIf="lastName?.hasError('required')" class="error-message">Last name is required</span>
+        </div>
+      </div>
     </div>
 
     <div class="form-row">
-      <ion-item class="form-item" lines="none">
-        <ion-label position="floating">Date of Birth</ion-label>
-        <ion-input type="date" formControlName="dateOfBirth" [max]="maxDateString" placeholder="YYYY/MM/DD" autocomplete="bday"></ion-input>
-        <ion-icon name="calendar-outline" slot="end"></ion-icon>
-        <span *ngIf="personalInfoForm.get('dateOfBirth')?.hasError('required') && personalInfoForm.get('dateOfBirth')?.touched" class="error-message visible" role="alert">Date of birth is required</span>
-        <span *ngIf="personalInfoForm.get('dateOfBirth')?.hasError('underage') && personalInfoForm.get('dateOfBirth')?.touched" class="error-message visible" role="alert">You must be at least 18 years old</span>
-      </ion-item>
-
-      <ion-item class="form-item county-field" lines="none">
-        <ion-label position="floating">County</ion-label>
-        <ion-select formControlName="county" placeholder="Select county" interface="popover">
-          <ion-select-option *ngFor="let county of counties" [value]="county">{{ county }}</ion-select-option>
-        </ion-select>
-        <span *ngIf="personalInfoForm.get('county')?.hasError('required') && personalInfoForm.get('county')?.touched" class="error-message visible" role="alert">County is required</span>
-      </ion-item>
+      <!-- Phone Number -->
+      <div class="field-wrapper">
+        <label class="static-label">Phone Number</label>
+        <ion-item class="phone-item" lines="none">
+          <ngx-intl-tel-input
+            formControlName="phoneNumber"
+            [cssClass]="'custom-tel-input'"
+            [preferredCountries]="preferredCountries"
+            [phoneValidation]="true"
+            [separateDialCode]="true"
+            [customPlaceholder]="'Enter phone number'"
+            name="phoneNumber"
+            autocomplete="tel"
+            >
+          </ngx-intl-tel-input>
+        </ion-item>
+        <div *ngIf="phoneNumber?.invalid && phoneNumber?.touched" class="error-message-container">
+          <span class="error-message">A valid phone number is required</span>
+        </div>
+      </div>
+      <!-- Employment Status -->
+      <div class="field-wrapper">
+        <ion-item class="form-item" lines="none">
+          <ion-select formControlName="employmentStatus" placeholder="Employment Status*" interface="popover">
+            <ion-select-option *ngFor="let option of employmentOptions" [value]="option.value">{{ option.label }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div *ngIf="employmentStatus?.invalid && employmentStatus?.touched" class="error-message-container">
+          <span class="error-message">Employment status is required</span>
+        </div>
+      </div>
     </div>
 
+    <div class="form-row">
+      <!-- Date of Birth -->
+      <div class="field-wrapper">
+        <ion-item class="form-item" lines="none" id="popover-trigger">
+          <ion-label *ngIf="!dateOfBirth?.value">Date of Birth*</ion-label>
+          <span class="datetime-value" *ngIf="dateOfBirth?.value">{{ dateOfBirth?.value | date:'mediumDate' }}</span>
+          <ion-icon name="calendar-outline" slot="end"></ion-icon>
+        </ion-item>
+        <div *ngIf="dateOfBirth?.invalid && dateOfBirth?.touched" class="error-message-container">
+            <span *ngIf="dateOfBirth?.hasError('required')" class="error-message">Date of birth is required</span>
+            <span *ngIf="dateOfBirth?.hasError('underage')" class="error-message">You must be at least 18 years old</span>
+        </div>
+        <ion-popover trigger="popover-trigger" [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              formControlName="dateOfBirth"
+              [max]="maxDateString"
+              [showDefaultButtons]="true">
+            </ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </div>
+      <!-- County -->
+      <div class="field-wrapper">
+        <ion-item class="form-item county-field" lines="none">
+          <ion-select formControlName="county" placeholder="County*" interface="popover">
+            <ion-select-option *ngFor="let county of counties" [value]="county">{{ county }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div *ngIf="county?.invalid && county?.touched" class="error-message-container">
+          <span class="error-message">County is required</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
     <div class="action-buttons">
-      <ion-button fill="outline" class="back-button nav-button" [disabled]="true" type="button" aria-label="Back button (disabled)">
+      <ion-button fill="outline" class="back-button nav-button" [disabled]="true" type="button">
         <ion-icon name="arrow-back" slot="start"></ion-icon> Back
       </ion-button>
-      <ion-button fill="solid" color="primary" class="next-button nav-button" type="submit" [disabled]="isSubmitting || personalInfoForm.invalid" aria-label="Next button">
-        <span>Next</span>
-        <ion-icon *ngIf="!isSubmitting" name="arrow-forward" slot="end"></ion-icon>
-        <div class="loading-spinner" *ngIf="isSubmitting" role="progressbar" aria-label="Submitting form"></div>
+      <ion-button fill="solid" color="primary" class="next-button nav-button" type="submit" [disabled]="isSubmitting || personalInfoForm.invalid">
+        <ion-icon *ngIf="!isSubmitting" name="arrow-forward" slot="start"></ion-icon>
+        <span *ngIf="!isSubmitting">Next</span>
+        <div class="loading-spinner" *ngIf="isSubmitting"></div>
       </ion-button>
     </div>
   </form>

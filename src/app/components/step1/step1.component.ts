@@ -1,10 +1,11 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule ,AbstractControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountyService } from '../../services/county.service';
 import { KycService } from '../../services/kyc.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import {
   IonCard,
@@ -15,15 +16,20 @@ import {
   IonSelect,
   IonSelectOption,
   IonButton,
+  IonDatetime,
+  IonPopover,
 } from '@ionic/angular/standalone';
+
+// --- 1. IMPORT addIcons AND THE SPECIFIC ICONS YOU NEED ---
+import { addIcons } from 'ionicons';
+import { person, calendarOutline, arrowBack, arrowForward } from 'ionicons/icons';
 
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 
 import { StepProgressComponent } from '../../shared/components/step-progress/step-progress.component';
+export type EmploymentStatus = 'employed' | 'self-employed' | 'unemployed' | 'student' | 'retired';
 
-import { Step1FormData, EmploymentStatus } from '../../models/step1.interface';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-step1',
@@ -33,7 +39,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     StepProgressComponent,
     ReactiveFormsModule,
     CommonModule,
-
+    DatePipe,
     IonCard,
     IonIcon,
     IonItem,
@@ -42,7 +48,8 @@ import { HttpErrorResponse } from '@angular/common/http';
     IonSelect,
     IonSelectOption,
     IonButton,
-
+    IonDatetime,
+    IonPopover,
     NgxIntlTelInputModule,
   ],
   templateUrl: './step1.component.html',
@@ -52,56 +59,18 @@ import { HttpErrorResponse } from '@angular/common/http';
   ]
 })
 export class Step1Component implements OnInit {
-  personalInfoForm: FormGroup;
+  personalInfoForm!: FormGroup;
   isLoadingCounties = false;
   isSubmitting = false;
-
-  personal_details = signal({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    employmentStatus: "",
-    county: "",
-    dateOfBirth: "",
-    selfieImageUrl: null,
-    frontPhotoIdUrl: null,
-    backPhotoIdUrl: null,
-    email: null,
-    isCaptured: false
-  });
 
   counties: string[] = [];
   CountryISO = CountryISO;
   SearchCountryField = SearchCountryField;
   PhoneNumberFormat = PhoneNumberFormat;
-  preferredCountries: CountryISO[] = [
-    CountryISO.Kenya,
-    CountryISO.Uganda,
-    CountryISO.Tanzania,
-    CountryISO.Ethiopia,
-    CountryISO.Rwanda
-  ];
-  searchCountryField: SearchCountryField[] = [
-    SearchCountryField.Iso2,
-    SearchCountryField.Name,
-    SearchCountryField.DialCode
-  ];
-
-  phoneSignal = signal<any>(null);
-
-  onPhoneChange(phone: any) {
-    this.phoneSignal.set(phone);
-    const fullPhoneNumber = this.phoneSignal()?.e164Number;
-    this.personal_details.update(current => ({
-      ...current,
-      phoneNumber: fullPhoneNumber
-    }));
-  }
-
-  maxDate: Date = new Date();
-  maxDateString: string = this.maxDate.toISOString().split('T')[0];
-
-  startDate: Date = new Date(1990, 0, 1);
+  preferredCountries: CountryISO[] = [CountryISO.Kenya, CountryISO.Uganda, CountryISO.Tanzania, CountryISO.Ethiopia, CountryISO.Rwanda];
+  
+  maxDateString: string;
+  public dropdownContainer = 'body'; 
 
   employmentOptions: { value: EmploymentStatus; label: string }[] = [
     { value: 'employed', label: 'Employed' },
@@ -112,187 +81,119 @@ export class Step1Component implements OnInit {
   ];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private router: Router,
     private countyService: CountyService,
     private kycService: KycService,
     private snackBar: MatSnackBar
   ) {
-    this.personalInfoForm = this.formBuilder.group({
-      firstName: ['', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.pattern(/^[a-zA-Z\s'-]+$/)
-      ]],
-      lastName: ['', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.pattern(/^[a-zA-Z\s'-]+$/)
-      ]],
-      phoneNumber: [null, [Validators.required]],
-      employmentStatus: [null as EmploymentStatus | null, [Validators.required]],
-      dateOfBirth: [null, [Validators.required, this.dateOfBirthValidator()]],
-      county: ['', [Validators.required]]
+    // --- 2. REGISTER THE ICONS IN THE CONSTRUCTOR ---
+    addIcons({
+      person,
+      'calendar-outline': calendarOutline,
+      'arrow-back': arrowBack,
+      'arrow-forward': arrowForward
     });
+
+    // Set the max date string robustly
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    this.maxDateString = `${year}-${month}-${day}`;
   }
+
+  // ... (the rest of your component logic is correct and does not need to be changed)
+  get firstName() { return this.personalInfoForm.get('firstName'); }
+  get lastName() { return this.personalInfoForm.get('lastName'); }
+  get phoneNumber() { return this.personalInfoForm.get('phoneNumber'); }
+  get employmentStatus() { return this.personalInfoForm.get('employmentStatus'); }
+  get dateOfBirth() { return this.personalInfoForm.get('dateOfBirth'); }
+  get county() { return this.personalInfoForm.get('county'); }
 
   ngOnInit() {
+    this.personalInfoForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z\s'-]+$/)]],
+      lastName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z\s'-]+$/)]],
+      phoneNumber: [null, [Validators.required]],
+      employmentStatus: [null as EmploymentStatus | null, [Validators.required]],
+      dateOfBirth: [null, [Validators.required, this.ageValidator(18)]],
+      county: ['', [Validators.required]]
+    });
     this.loadCounties();
-    this.setupFormValidation();
   }
 
-  private setupFormValidation() {
-    this.personalInfoForm.get('phoneNumber')?.valueChanges.subscribe(value => {
-      if (value && typeof value === 'object' && 'valid' in value) {
-        if (value.valid) {
-          this.personalInfoForm.get('phoneNumber')?.setErrors(null);
-        } else {
-          this.personalInfoForm.get('phoneNumber')?.setErrors({ invalidNumber: true });
-        }
-      } else if (value === null || value === undefined || value === '') {
-           if (!this.personalInfoForm.get('phoneNumber')?.hasError('required')) {
-               this.personalInfoForm.get('phoneNumber')?.setErrors({ required: true });
-           }
-      }
-    });
-
-    this.personalInfoForm.get('dateOfBirth')?.valueChanges.subscribe(value => {
-      if (value) {
-        const dateValue = (typeof value === 'string') ? new Date(value) : value;
-        const errors = this.dateOfBirthValidator()(new FormControl(dateValue));
-        this.personalInfoForm.get('dateOfBirth')?.setErrors(errors);
-      } else {
-         if (!this.personalInfoForm.get('dateOfBirth')?.hasError('required')) {
-            this.personalInfoForm.get('dateOfBirth')?.setErrors({ required: true });
-         }
-      }
-    });
-  }
-
-  dateOfBirthValidator() {
-    return (control: FormControl): { [key: string]: any } | null => {
-      if (!control.value) return { required: true };
-
-      const birthDate = (typeof control.value === 'string') ? new Date(control.value) : control.value;
-
-      if (isNaN(birthDate.getTime())) {
-          return { invalidDate: true };
-      }
-
+  ageValidator(minAge: number) {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) return null;
+      const birthDate = new Date(control.value);
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
-
-      return age >= 18 ? null : { underage: true };
+      return age >= minAge ? null : { underage: true };
     };
   }
 
   loadCounties() {
     this.isLoadingCounties = true;
     this.countyService.getCounties().subscribe({
-      next: (counties) => {
-        this.counties = counties;
-        this.isLoadingCounties = false;
-      },
-      error: (error) => {
-        console.error('Error loading counties:', error);
-        this.isLoadingCounties = false;
-        this.snackBar.open('Error loading counties. Please try again.', 'Close', {
-          duration: 5000,
-          panelClass: ['error-snackbar']
-        });
-      }
+      next: (counties) => { this.counties = counties; this.isLoadingCounties = false; },
+      error: (error) => { console.error('Error loading counties:', error); this.isLoadingCounties = false; }
     });
   }
 
   onNext() {
-    const phoneNumberControl = this.personalInfoForm.get('phoneNumber');
-    const isPhoneValid = phoneNumberControl?.value?.valid === true;
-
-    if (this.personalInfoForm.valid && isPhoneValid && !this.isSubmitting) {
-      this.isSubmitting = true;
-      const formData = this.personalInfoForm.getRawValue();
-
-      const phoneNumber = formData.phoneNumber?.e164Number || formData.phoneNumber?.number;
-      const dateOfBirth = formData.dateOfBirth ? new Date(formData.dateOfBirth).toISOString().split('T')[0] : null;
-
-      const payload = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phoneNumber: phoneNumber,
-        employmentStatus: formData.employmentStatus,
-        dateOfBirth: dateOfBirth || new Date().toISOString().split('T')[0], // Provide a default date if null
-        county: formData.county,
-        selfieImageUrl: null,
-        frontPhotoIdUrl: null,
-        backPhotoIdUrl: null,
-        email: null,
-        isCaptured: false
-      };
-
-      this.kycService.submitPersonalDetails(payload).subscribe({
-        next: (response) => {
-          console.log('Response from server:', response);
-          const storedData = {
-            ...payload,
-            dateOfBirth: formData.dateOfBirth ? new Date(formData.dateOfBirth).toISOString() : null,
-            customerId: response.id || response.customerId
-          };
-          localStorage.setItem('step1Data', JSON.stringify(storedData));
-          localStorage.setItem('customerId', storedData.customerId.toString());
-
-          this.router.navigate(['/step2']);
-          this.snackBar.open('Personal information saved successfully', 'Close', {
-            duration: 3000,
-            panelClass: ['success-snackbar']
-          });
-        },
-        error: (error) => {
-          console.error('Error submitting form:', error);
-          this.isSubmitting = false;
-          if (error.status === 409) {
-            this.snackBar.open('This phone number is already registered. Please use a different number or contact support if you need help with your existing registration.', 'Close', {
-              duration: 8000,
-              panelClass: ['error-snackbar']
-            });
-          } else {
-            this.snackBar.open('Error submitting form. Please try again.', 'Close', {
-              duration: 5000,
-              panelClass: ['error-snackbar']
-            });
-          }
-        },
-        complete: () => {
-          this.isSubmitting = false;
-        }
-      });
-    } else {
+    if (this.personalInfoForm.invalid) {
       this.markFormGroupTouched(this.personalInfoForm);
-       const message = isPhoneValid ?
-                       'Please fill in all required fields correctly' :
-                       'Please fix the errors, including the phone number';
-
-      this.snackBar.open(message, 'Close', {
-        duration: 3000,
-        panelClass: ['warning-snackbar']
-      });
+      this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 3000, panelClass: ['warning-snackbar'] });
+      return;
     }
+    
+    this.isSubmitting = true;
+  const formData = this.personalInfoForm.getRawValue();
+  // Ensure dateOfBirth is always a string (never null)
+  const formattedDate = new Date(formData.dateOfBirth).toISOString().split('T')[0];
+
+  const payload = {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    phoneNumber: formData.phoneNumber.e164Number,
+    employmentStatus: formData.employmentStatus,
+    dateOfBirth: formattedDate,
+    county: formData.county,
+    selfieImageUrl: null,
+    frontPhotoIdUrl: null,
+    backPhotoIdUrl: null,
+    email: null,
+    isCaptured: false
+  };
+
+  this.kycService.submitPersonalDetails(payload).subscribe({
+      next: (response) => {
+        this.router.navigate(['/step2']);
+        this.snackBar.open('Personal information saved successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isSubmitting = false;
+        const errorMessage = error.status === 409 ? 'This phone number is already registered.' : 'Error submitting form. Please try again.';
+        this.snackBar.open(errorMessage, 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
-      }
+      if (control instanceof FormGroup) this.markFormGroupTouched(control);
     });
-     const phoneControl = formGroup.get('phoneNumber');
-     if (phoneControl) {
-         phoneControl.markAsTouched();
-     }
   }
 }

@@ -5,22 +5,24 @@ import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import {
   IonCard,
   IonIcon,
   IonItem,
-  IonLabel,
+  // IonLabel is not used in the template, so it's removed
   IonInput,
   IonButton,
 } from '@ionic/angular/standalone';
 
+// 1. Import addIcons and the specific icons needed for this component
+import { addIcons } from 'ionicons';
+import { mail, mailOutline, arrowBack, send } from 'ionicons/icons';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
 import { StepProgressComponent } from '../../shared/components/step-progress/step-progress.component';
-
 import { KycService } from '../../services/kyc.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -31,17 +33,13 @@ import { HttpErrorResponse } from '@angular/common/http';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-
     IonCard,
     IonIcon,
     IonItem,
-    IonLabel,
     IonInput,
     IonButton,
-
     MatProgressSpinnerModule,
     MatSnackBarModule,
-
     StepProgressComponent
   ]
 })
@@ -55,6 +53,14 @@ export class Step3Component implements OnInit {
     private snackBar: MatSnackBar,
     private kycService: KycService
   ) {
+    // 2. Register the icons in the constructor to make them available to the template
+    addIcons({
+      mail,
+      'mail-outline': mailOutline,
+      'arrow-back': arrowBack,
+      send
+    });
+
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -119,7 +125,6 @@ export class Step3Component implements OnInit {
               emailSubmitted: true,
             };
             localStorage.setItem('step1Data', JSON.stringify(updatedData));
-
             localStorage.setItem('step3Data', JSON.stringify(this.emailForm.value));
 
             this.router.navigate(['/success']).then(() => {
