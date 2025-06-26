@@ -1,7 +1,7 @@
 /* --- Base Container Styling --- */
-/* Target the host component to style ion-content */
+/* Target the host component to ensure ion-content can fill the height */
 :host {
-  /* This special Ionic variable allows us to use flexbox on the inner scroll container */
+  /* This allows the inner scroll-content to have a flexible height */
   --offset-bottom: auto !important;
 }
 
@@ -9,32 +9,29 @@ ion-content {
   --background: #f8f9fa;
 }
 
-/* --- THE CENTERING FIX --- */
-/* Make the container a flexbox that fills the entire ion-content area */
+/* --- Centering Container --- */
+/* This div sits inside ion-content and handles the centering of the card.
+   Using a div is more robust than styling ion-content directly. */
 .welcome-container {
   display: flex;
   justify-content: center; /* Center horizontally */
   align-items: center;   /* Center vertically */
   width: 100%;
-  min-height: 100%; /* Ensure it takes up full height */
+  min-height: 100%; /* Ensure it takes up full height of the scroll area */
   padding: 1.5rem;
   box-sizing: border-box;
 }
 
 /* --- Card Styling --- */
 .welcome-card {
-  max-width: 600px; /* This will now be respected */
+  max-width: 600px;
   width: 100%;
   padding: 2.5rem;
-  /* margin: auto; is an alternative way to center inside a flex container */
-  /* We will use the container's justify/align properties for simplicity */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   background: #fff;
   border: 1px solid #f0f0f0;
 }
-/* --- END OF THE CENTERING FIX --- */
-
 
 /* --- Header Section --- */
 .welcome-header {
@@ -57,6 +54,11 @@ h1 {
   margin: 0;
   font-weight: 600;
   line-height: 1.2;
+}
+
+/* --- Body Content --- */
+.welcome-body {
+  /* This class now wraps the main informational content */
 }
 
 .welcome-description {
@@ -102,7 +104,8 @@ h1 {
   font-size: 1rem;
 }
 
-.steps-overview ion-icon {
+/* Be more specific to avoid accidentally styling other icons */
+.steps-overview .step-icon {
   margin-right: 12px;
   color: #1976d2;
   flex-shrink: 0;
@@ -115,20 +118,19 @@ h1 {
   align-items: center;
   justify-content: center;
   color: #64748b;
-  margin-bottom: 2rem;
+  margin-bottom: 2rem; /* Spacing before the final button */
   font-size: 0.95rem;
 }
 
 .time-estimate ion-icon {
   margin-right: 8px;
   font-size: 20px;
-}
+} 
 
 .button-container {
   display: flex;
   justify-content: center;
-  padding: 0;
-  margin-top: 1rem;
+  /* No top margin needed, spacing is handled by elements above */
 }
 
 /* Styling ion-button */
@@ -159,15 +161,16 @@ h1 {
   font-size: 20px;
 }
 
+
 /* --- RESPONSIVE MEDIA QUERIES --- */
 @media (max-width: 480px) {
   .welcome-container {
     padding: 1rem;
-    align-items: flex-start; /* On small phones, don't force vertical centering */
+    align-items: flex-start; /* On small/short screens, align to top */
   }
   .welcome-card {
     padding: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 1rem; /* Add space from the top on mobile */
   }
   h1 {
     font-size: 1.5rem;

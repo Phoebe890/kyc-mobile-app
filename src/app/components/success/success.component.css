@@ -1,13 +1,30 @@
+/**************************************************/
+/* --- Base Page & Container Styling --- */
+/**************************************************/
+
+/* Use Ionic's CSS variable to set the page background */
+ion-content {
+  --background: #f5f5f5;
+}
+
 .success-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f5f5f5;
+  min-height: 100%; /* Use 100% to fill ion-content */
+  width: 100%;
   padding: 1rem;
+  box-sizing: border-box;
 }
 
-.success-card {
+/**************************************************/
+/* --- Card Styling --- */
+/**************************************************/
+
+/* Target ion-card and apply the original card styles */
+ion-card.success-card {
+  /* Remove Ionic's default margin and padding */
+  margin: 0;
   padding: 2rem;
   text-align: center;
   max-width: 400px;
@@ -16,6 +33,10 @@
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+/**************************************************/
+/* --- Icon, Text, and Button Styling --- */
+/**************************************************/
 
 .success-icon {
   margin: 1.5rem auto;
@@ -33,17 +54,17 @@
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
-.circle mat-icon {
-  font-size: 40px;
+/* Target ion-icon within the circle */
+.circle ion-icon {
+  font-size: 48px; /* For ion-icon, font-size is usually enough */
   color: white;
-  width: 50px;
-  height: 40px;
 }
 
 h1 {
   font-size: 24px;
   margin-bottom: 1rem;
   color: #333;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -54,113 +75,64 @@ p {
   line-height: 1.5;
 }
 
-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-top: 1rem;
-  cursor: pointer;
-  border-radius: 8px;
+/* Style the ion-button to look like the original button */
+ion-button.finish-button {
+  --background: #4CAF50;
+  --background-hover: #45a049;
+  --color: white;
+  --border-radius: 8px;
+  --box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --padding-start: 24px;
+  --padding-end: 24px;
+
+  /* Additional properties for custom look */
+  height: auto;
   min-width: 150px;
+  font-size: 16px;
+  text-transform: none; /* Ionic buttons are uppercase by default */
+  margin-top: 1rem;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
 }
 
-button:hover {
-  background-color: #45a049;
+ion-button.finish-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  --box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
 }
 
-/* Tablet Responsive */
+/**************************************************/
+/* --- Responsive & Accessibility (Unchanged) --- */
+/* This block is standard CSS and works perfectly */
+/**************************************************/
+
 @media (max-width: 768px) {
-  .success-card {
-    padding: 1.5rem;
-    width: 95%;
-  }
-
-  .circle {
-    width: 70px;
-    height: 70px;
-  }
-
-  .circle mat-icon {
-    font-size: 35px;
-    width: 45px;
-    height: 35px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-
-  p {
-    font-size: 15px;
-  }
+  ion-card.success-card { padding: 1.5rem; width: 95%; }
+  .circle { width: 70px; height: 70px; }
+  .circle ion-icon { font-size: 40px; }
+  h1 { font-size: 22px; }
+  p { font-size: 15px; }
 }
 
-/* Mobile Responsive */
 @media (max-width: 480px) {
-  .success-container {
-    padding: 1rem 0.5rem;
-  }
-
-  .success-card {
-    padding: 1.25rem;
-    width: 100%;
-  }
-
-  .success-icon {
-    margin: 1rem auto;
-  }
-
-  .circle {
-    width: 60px;
-    height: 60px;
-  }
-
-  .circle mat-icon {
-    font-size: 30px;
-    width: 40px;
-    height: 30px;
-  }
-
-  h1 {
-    font-size: 20px;
-    margin-bottom: 0.75rem;
-  }
-
-  p {
-    font-size: 14px;
-    margin-bottom: 1.5rem;
-  }
-
-  button {
-    width: 100%;
-    padding: 10px 20px;
-    font-size: 15px;
-  }
+  .success-container { padding: 1rem 0.5rem; }
+  ion-card.success-card { padding: 1.25rem; width: 100%; }
+  .success-icon { margin: 1rem auto; }
+  .circle { width: 60px; height: 60px; }
+  .circle ion-icon { font-size: 35px; }
+  h1 { font-size: 20px; margin-bottom: 0.75rem; }
+  p { font-size: 14px; margin-bottom: 1.5rem; }
+  ion-button.finish-button { width: 100%; }
 }
 
-/* Accessibility Improvements */
 @media (prefers-reduced-motion: reduce) {
-  button, .circle {
+  ion-button.finish-button, .circle {
     transition: none;
+    transform: none;
   }
 }
 
-/* High Contrast Mode */
 @media (forced-colors: active) {
-  .circle {
-    border: 2px solid ButtonText;
-  }
-  
-  button {
-    border: 2px solid ButtonText;
-  }
+  .circle { border: 2px solid ButtonText; }
+  ion-button.finish-button { border: 2px solid ButtonText; }
 }

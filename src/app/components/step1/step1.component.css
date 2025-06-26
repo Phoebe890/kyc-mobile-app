@@ -1,170 +1,126 @@
-/* Card and Header Styles */
-ion-card.kyc-card {
-  max-width: 900px;
-  margin: 1.5rem auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 0;
-  /* --- FIX: Allows the card to expand and show content outside its initial bounds --- */
-  overflow: visible; 
-}
-/* ... all header and progress indicator styles are correct ... */
-.header-content {
-  display: flex;
-  align-items: center;
-  padding: 1.25rem;
-  background: #ffffff;
-  border-radius: 8px 8px 0 0;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid #E2E8F0;
-}
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex: 1;
-}
-.header-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: #e3f2fd;
-  border-radius: 50%;
-  margin-right: 1rem;
-}
+/**************************************************/
+/* --- Base Page & Header Styling --- */
+/**************************************************/
+ion-header ion-toolbar { --background: transparent; }
+ion-content { --background: #f0f2f5; }
+.page-container { padding: 2rem; margin: 0 auto; max-width: 950px; width: 100%; box-sizing: border-box; }
+
+/**************************************************/
+/* --- Card & Content Styles --- */
+/**************************************************/
+ion-card.kyc-card { width: 100%; margin: 0; background: #fff; border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07); border: 1px solid #e2e8f0; padding: 0; overflow: visible; }
+.card-content { padding: 2rem; }
+.header-content { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.5rem 2rem; background: #fdfdff; border-radius: 16px 16px 0 0; border-bottom: 1px solid #E2E8F0; }
+.header-left { display: flex; align-items: center; gap: 1rem; }
+.header-icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #e3f2fd; border-radius: 50%; flex-shrink: 0; }
 .header-icon ion-icon { color: #1976d2; font-size: 24px; }
-.header-text h2 { margin: 0; font-size: 1.5rem; font-weight: 500; color: #1E293B; }
-.header-text p { margin: 0.5rem 0 0; color: #64748B; font-size: 0.875rem; }
-.completion-indicator {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-left: auto;
-  padding: 1rem;
-  background: #f8fafc;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-.progress-circle {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  background: #e3f2fd;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.progress-circle svg { transform: rotate(-90deg); position: absolute; }
-.progress-ring-bg { fill: none; stroke: #e0e0e0; stroke-width: 3; }
-.progress-ring-circle { fill: none; stroke: #1976d2; stroke-width: 3; transition: stroke-dashoffset 0.3s ease; }
-.percentage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: 500; color: #1976d2; }
+.header-text h2 { margin: 0; font-size: 1.5rem; font-weight: 600; color: #1E293B; }
+.header-text p { margin: 4px 0 0; color: #64748B; font-size: 0.9rem; }
+
+/**************************************************/
+/* --- Progress Indicator Styles --- */
+/**************************************************/
+.completion-indicator { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; }
+.progress-circle { position: relative; width: 40px; height: 40px; }
+.progress-circle svg { transform: rotate(-90deg); position: absolute; top: 0; left: 0; }
+.progress-ring-bg { fill: none; stroke: #e0e0e0; stroke-width: 3.5; }
+.progress-ring-circle { fill: none; stroke: #1976d2; stroke-width: 3.5; transition: stroke-dashoffset 0.3s ease; }
+.percentage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: 600; color: #1976d2; }
 .step-text { display: flex; flex-direction: column; }
 .current-step { font-size: 12px; color: #64748B; margin-bottom: 2px; }
 .step-label { font-size: 14px; font-weight: 500; color: #1E293B; }
 
-/* Form Layout */
-.form-section { padding: 24px; }
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px; /* A bit smaller gap is fine */
-  /* --- FIX: Increase bottom margin to create space for error messages --- */
-  margin-bottom: 40px; 
-  align-items: flex-end;
+/**************************************************/
+/* --- Form Layout & General Field Styles --- */
+/**************************************************/
+.form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 2rem; margin-bottom: 36px; }
+.field-wrapper { position: relative; width: 100%; display: flex; flex-direction: column; }
+.static-label { font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 8px; display: block; }
+ion-item.form-item { --background: #f8fafc; --border-color: #d1d5db; --border-radius: 8px; --border-width: 1px; --padding-start: 12px; --padding-end: 12px; --inner-padding-end: 0; --min-height: 48px; --highlight-height: 0; box-shadow: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; width: 100%; }
+ion-input, ion-select { --color: #1E293B; --placeholder-color: #6b7280; font-size: 0.9rem; }
+ion-select, #popover-trigger { cursor: pointer; }
+#popover-trigger .datetime-placeholder, #popover-trigger .datetime-value { font-size: 0.9rem; }
+
+/**************************************************/
+/* --- Phone Field Custom Styling --- */
+/**************************************************/
+ion-item.phone-item { --background: #f8fafc; --border-color: #d1d5db; --border-radius: 8px; --border-width: 1px; --padding-start: 0; --padding-end: 0; --inner-padding-end: 0; --min-height: 48px; --highlight-height: 0; box-shadow: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; width: 100%; display: flex; align-items: center; }
+ion-item.item-has-focus, ion-item.form-item:hover, ion-item.phone-item:hover { --border-color: #1976d2; box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1); }
+ion-item.ion-invalid.ion-touched { --border-color: #EF4444 !important; }
+
+/* Main library container */
+:host ::ng-deep .phone-item .iti { width: 100%; display: flex; align-items: center; }
+/* Country flag container */
+:host ::ng-deep .phone-item .iti__selected-flag { background-color: transparent !important; outline: none !important; padding: 0 12px; }
+
+/* The actual <input> element */
+:host ::ng-deep .phone-item input[type="tel"] {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  height: 46px;
+  font-size: 0.9rem !important;
+  color: #1E293B !important;
+  font-family: inherit !important;
+  box-sizing: border-box; /* Ensures padding is calculated correctly */
+
+  /*
+    *************************************************************************
+    *** THE FIX for the hidden placeholder text ***
+    *************************************************************************
+    We apply a generous, fixed padding to the left side of the input field.
+    This pushes all content (placeholder and typed text) to the right,
+    preventing it from ever appearing behind the flag and dial code.
+    85px is a safe value that works for even the widest dial codes.
+  */
+  padding: 12px 12px 12px 85px !important;
 }
-.field-wrapper {
-  position: relative;
-  width: 100%;
+:host ::ng-deep .phone-item input[type="tel"]::placeholder { color: #6b7280 !important; opacity: 1 !important; }
+
+/**************************************************/
+/* --- GUARANTEED CSS FIX FOR DROPDOWN --- */
+/**************************************************/
+.phone-field-wrapper { position: relative; z-index: 10; }
+ion-item.phone-item { overflow: visible !important; }
+:host ::ng-deep .iti__country-list {
+  z-index: 9999 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  /* Make the list scrollable */
+  max-height: 200px;
+  overflow-y: auto;
 }
-
-/* Unified Form Field Styles */
-ion-item.form-item,
-ion-item.phone-item {
-  --background: #f8fafc;
-  --border-color: #d1d5db;
-  --border-radius: 8px;
-  --border-width: 1px;
-  --padding-start: 12px;
-  --padding-end: 12px;
-  --min-height: 44px;
-  --highlight-height: 0;
-  box-shadow: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+/* Make the dropdown arrow visible */
+:host ::ng-deep .iti__arrow {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #555;
+  margin-left: 6px;
+  opacity: 0.8;
 }
-ion-item.form-item { cursor: pointer; }
-ion-item.phone-item { cursor: default; }
-
-/* Field States */
-ion-item.item-has-focus,
-#popover-trigger:active { --border-color: #1976d2; box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1); }
-ion-item.ion-invalid.ion-touched {
-  --border-color: #EF4444 !important;
+:host ::ng-deep .iti--show-country-list .iti__arrow {
+  border-top: none; /* When open, arrow points up */
+  border-bottom: 5px solid #555;
 }
+/**************************************************/
 
-/* Input & Select Text Styles */
-ion-item ion-input,
-ion-item ion-select { --color: #1E293B; --placeholder-color: #6b7280; --placeholder-opacity: 1; font-size: 14px; cursor: text; }
-ion-item ion-select { width: 100%; }
-
-/* Static Label for Phone Number */
-.static-label { font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 8px; display: block; }
-
-/* Date of Birth Trigger Field Styles */
-#popover-trigger ion-label { color: #6b7280; font-size: 14px; }
-#popover-trigger .datetime-value { font-size: 14px; color: #1E293B; }
-
-/* Phone Field Integration & Dropdown Appearance */
-.phone-field :host ::ng-deep .iti { width: 100%; }
-.phone-field :host ::ng-deep .iti__selected-flag { background-color: transparent !important; border: none !important; outline: none !important; padding: 0 0 0 12px !important; }
-.phone-field :host ::ng-deep .iti input { background-color: transparent !important; border: none !important; box-shadow: none !important; outline: none !important; width: 100% !important; margin: 0 !important; padding: 0 12px !important; font-size: 14px !important; color: #1E293B !important; cursor: text; }
-.phone-field :host ::ng-deep .iti input::placeholder { color: #6b7280 !important; opacity: 1 !important; }
-:host ::ng-deep .iti__country-list { z-index: 9999 !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-radius: 8px; }
-
-/* Error Message Styling */
-.error-message-container { position: absolute; bottom: -24px; left: 0; }
-.error-message { color: #EF4444; font-size: 12px; font-weight: 400; display: block; margin-top: 4px; }
-
-/* Icon & Button Styles */
-ion-item ion-icon[slot="end"] { color: #6b7280; font-size: 20px; }
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
-}
-.nav-button {
-  min-width: 120px;
-  --height: 40px;
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: none;
-  --border-radius: 8px;
-}
-ion-button.back-button { --border-color: #1976d2; --color: #1976d2; }
+/**************************************************/
+/* --- Error & Button Styles --- */
+/**************************************************/
+.error-message-container { position: absolute; bottom: -22px; left: 0; }
+.error-message { color: #EF4444; font-size: 0.75rem; margin-top: 4px; }
+.action-buttons { display: flex; justify-content: space-between; margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; }
+.nav-button { min-width: 120px; height: 44px; font-size: 14px; font-weight: 500; text-transform: none; --border-radius: 8px; }
+ion-button.back-button { --border-color: #d1d5db; --color: #374151; }
 ion-button.next-button { --background: #1976d2; --color: white; margin-left: auto; }
-.nav-button ion-icon { font-size: 20px; }
-.loading-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  display: inline-block;
-  margin: 0 auto;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+.loading-spinner { width: 20px; height: 20px; border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* Responsive Media Queries */
-@media (max-width: 1024px) { .header-content { flex-direction: column; align-items: flex-start; gap: 1rem; } .completion-indicator { margin-left: 0; width: 100%; } }
-@media (max-width: 768px) { .form-row { grid-template-columns: 1fr; gap: 40px; margin-bottom: 40px; } .action-buttons { flex-direction: column; gap: 1rem; } .action-buttons ion-button { width: 100%; margin-left: 0; } }
-@media (max-width: 480px) { .form-section { padding: 16px; } .header-content { padding: 1rem; } .header-text h2 { font-size: 1.25rem; } }
+/**************************************************/
+/* --- Responsive Media Queries --- */
+/**************************************************/
+@media (max-width: 1024px) { .header-content { flex-direction: column; align-items: flex-start; } .completion-indicator { width: 100%; } }
+@media (max-width: 768px) { .page-container { padding: 1rem; } .card-content, .header-content { padding: 1.5rem; } .form-row { grid-template-columns: 1fr; gap: 0; row-gap: 36px; margin-bottom: 36px; } .action-buttons { flex-direction: column; gap: 1rem; } .action-buttons ion-button { width: 100%; margin-left: 0; } }
+@media (max-width: 480px) { .page-container { padding: 0.75rem; } .card-content, .header-content { padding: 1rem; } .header-text h2 { font-size: 1.25rem; } .form-row { row-gap: 32px; margin-bottom: 32px; } .static-label { font-size: 0.8rem; } ion-input, ion-select { font-size: 0.875rem; } }

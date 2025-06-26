@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule ,AbstractControl} from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountyService } from '../../services/county.service';
@@ -7,7 +7,12 @@ import { KycService } from '../../services/kyc.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 
+// --- All necessary Ionic standalone components ---
 import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
   IonCard,
   IonIcon,
   IonItem,
@@ -20,26 +25,33 @@ import {
   IonPopover,
 } from '@ionic/angular/standalone';
 
-// --- 1. IMPORT addIcons AND THE SPECIFIC ICONS YOU NEED ---
+// --- Icon registration ---
 import { addIcons } from 'ionicons';
 import { person, calendarOutline, arrowBack, arrowForward } from 'ionicons/icons';
 
+// --- Third-party modules ---
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 
+// --- Custom shared components ---
 import { StepProgressComponent } from '../../shared/components/step-progress/step-progress.component';
-export type EmploymentStatus = 'employed' | 'self-employed' | 'unemployed' | 'student' | 'retired';
 
+export type EmploymentStatus = 'employed' | 'self-employed' | 'unemployed' | 'student' | 'retired';
 
 @Component({
   selector: 'app-step1',
   standalone: true,
   imports: [
-    FormsModule,
-    StepProgressComponent,
     ReactiveFormsModule,
     CommonModule,
-    DatePipe,
+    StepProgressComponent,
+    NgxIntlTelInputModule,
+
+    // All necessary Ionic components
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
     IonCard,
     IonIcon,
     IonItem,
@@ -50,11 +62,13 @@ export type EmploymentStatus = 'employed' | 'self-employed' | 'unemployed' | 'st
     IonButton,
     IonDatetime,
     IonPopover,
-    NgxIntlTelInputModule,
+  ],
+  providers: [
+    DatePipe
   ],
   templateUrl: './step1.component.html',
   styleUrls: [
-    '../../shared/styles/kyc-form.scss',
+    '../../shared/styles/kyc-form.scss', // Ensure this path is correct
     './step1.component.css'
   ]
 })
@@ -68,9 +82,8 @@ export class Step1Component implements OnInit {
   SearchCountryField = SearchCountryField;
   PhoneNumberFormat = PhoneNumberFormat;
   preferredCountries: CountryISO[] = [CountryISO.Kenya, CountryISO.Uganda, CountryISO.Tanzania, CountryISO.Ethiopia, CountryISO.Rwanda];
-  
+
   maxDateString: string;
-  public dropdownContainer = 'body'; 
 
   employmentOptions: { value: EmploymentStatus; label: string }[] = [
     { value: 'employed', label: 'Employed' },
@@ -87,29 +100,15 @@ export class Step1Component implements OnInit {
     private kycService: KycService,
     private snackBar: MatSnackBar
   ) {
-    // --- 2. REGISTER THE ICONS IN THE CONSTRUCTOR ---
     addIcons({
       person,
       'calendar-outline': calendarOutline,
       'arrow-back': arrowBack,
       'arrow-forward': arrowForward
     });
-
-    // Set the max date string robustly
     const today = new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0');
-    const day = today.getDate().toString().padStart(2, '0');
-    this.maxDateString = `${year}-${month}-${day}`;
+    this.maxDateString = today.toISOString().split('T')[0];
   }
-
-  // ... (the rest of your component logic is correct and does not need to be changed)
-  get firstName() { return this.personalInfoForm.get('firstName'); }
-  get lastName() { return this.personalInfoForm.get('lastName'); }
-  get phoneNumber() { return this.personalInfoForm.get('phoneNumber'); }
-  get employmentStatus() { return this.personalInfoForm.get('employmentStatus'); }
-  get dateOfBirth() { return this.personalInfoForm.get('dateOfBirth'); }
-  get county() { return this.personalInfoForm.get('county'); }
 
   ngOnInit() {
     this.personalInfoForm = this.fb.group({
@@ -122,6 +121,13 @@ export class Step1Component implements OnInit {
     });
     this.loadCounties();
   }
+
+  get firstName() { return this.personalInfoForm.get('firstName'); }
+  get lastName() { return this.personalInfoForm.get('lastName'); }
+  get phoneNumber() { return this.personalInfoForm.get('phoneNumber'); }
+  get employmentStatus() { return this.personalInfoForm.get('employmentStatus'); }
+  get dateOfBirth() { return this.personalInfoForm.get('dateOfBirth'); }
+  get county() { return this.personalInfoForm.get('county'); }
 
   ageValidator(minAge: number) {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -151,27 +157,26 @@ export class Step1Component implements OnInit {
       this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 3000, panelClass: ['warning-snackbar'] });
       return;
     }
-    
+
     this.isSubmitting = true;
-  const formData = this.personalInfoForm.getRawValue();
-  // Ensure dateOfBirth is always a string (never null)
-  const formattedDate = new Date(formData.dateOfBirth).toISOString().split('T')[0];
+    const formData = this.personalInfoForm.getRawValue();
+    const formattedDate = new Date(formData.dateOfBirth).toISOString().split('T')[0];
 
-  const payload = {
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-    phoneNumber: formData.phoneNumber.e164Number,
-    employmentStatus: formData.employmentStatus,
-    dateOfBirth: formattedDate,
-    county: formData.county,
-    selfieImageUrl: null,
-    frontPhotoIdUrl: null,
-    backPhotoIdUrl: null,
-    email: null,
-    isCaptured: false
-  };
+    const payload = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      phoneNumber: formData.phoneNumber.e164Number,
+      employmentStatus: formData.employmentStatus,
+      dateOfBirth: formattedDate,
+      county: formData.county,
+      selfieImageUrl: null,
+      frontPhotoIdUrl: null,
+      backPhotoIdUrl: null,
+      email: null,
+      isCaptured: false
+    };
 
-  this.kycService.submitPersonalDetails(payload).subscribe({
+    this.kycService.submitPersonalDetails(payload).subscribe({
       next: (response) => {
         this.router.navigate(['/step2']);
         this.snackBar.open('Personal information saved successfully', 'Close', {

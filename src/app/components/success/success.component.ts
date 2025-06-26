@@ -1,17 +1,30 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { CommonModule } from '@angular/common';
+
+// --- UPDATED: Import Ionic components instead of Angular Material ---
+import {
+  IonContent,
+  IonCard,
+  IonIcon,
+  IonButton
+} from '@ionic/angular/standalone';
+
+// --- ADDED: Import and register the 'checkmark' icon ---
+import { addIcons } from 'ionicons';
+import { checkmark } from 'ionicons/icons';
 
 @Component({
   selector: 'app-success',
   standalone: true,
   imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule
+    CommonModule,
+    // --- UPDATED: Use Ionic components in the imports array ---
+    IonContent,
+    IonCard,
+    IonIcon,
+    IonButton
   ],
   templateUrl: './success.component.html',
   styleUrls: ['./success.component.css'],
@@ -19,13 +32,16 @@ import { trigger, style, animate, transition } from '@angular/animations';
     trigger('scaleIn', [
       transition(':enter', [
         style({ transform: 'scale(0)' }),
-        animate('500ms ease-out', style({ transform: 'scale(1)' }))
+        animate('500ms cubic-bezier(0.34, 1.56, 0.64, 1)', style({ transform: 'scale(1)' })) // Smoother ease
       ])
     ])
   ]
 })
 export class SuccessComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    // Register the icon so it can be used in the template
+    addIcons({ checkmark });
+  }
 
   onFinish() {
     // Clear all stored data
@@ -33,7 +49,7 @@ export class SuccessComponent {
     localStorage.removeItem('step2Data');
     localStorage.removeItem('step3Data');
     
-    // Navigate back to step1
+    // Navigate back to the beginning
     this.router.navigate(['/step1']);
   }
 }

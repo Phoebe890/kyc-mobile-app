@@ -72,7 +72,7 @@ export class Step2Component implements OnInit {
     private kycService: KycService,
     private snackBar: MatSnackBar
   ) {addIcons({
-      'idCard': idCard,
+      'id-card': idCard,
       'checkmark': checkmark,
       'arrow-back': arrowBack,
       'arrow-forward': arrowForward,
