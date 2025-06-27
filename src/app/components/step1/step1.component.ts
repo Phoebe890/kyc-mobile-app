@@ -162,22 +162,42 @@ export class Step1Component implements OnInit {
     const formData = this.personalInfoForm.getRawValue();
     const formattedDate = new Date(formData.dateOfBirth).toISOString().split('T')[0];
 
-    const payload = {
+    // Ensure phoneNumber is a string (handle both ngx-intl-tel-input and plain string)
+    let phoneNumber: string = '';
+    if (typeof formData.phoneNumber === 'string') {
+      phoneNumber = formData.phoneNumber;
+    } else if (formData.phoneNumber && formData.phoneNumber.e164Number) {
+      phoneNumber = formData.phoneNumber.e164Number;
+    }
+
+    // Construct payload with only the fields expected by the backend and omit nulls
+    const payload: any = {
       firstName: formData.firstName,
       lastName: formData.lastName,
-      phoneNumber: formData.phoneNumber.e164Number,
+      phoneNumber: phoneNumber,
       employmentStatus: formData.employmentStatus,
       dateOfBirth: formattedDate,
       county: formData.county,
-      selfieImageUrl: null,
-      frontPhotoIdUrl: null,
-      backPhotoIdUrl: null,
-      email: null,
+      selfieImageUrl: "https://res.cloudinary.com/drkmm8xka/image/upload/v1747140876/file.jpg",
       isCaptured: false
     };
+    // Only add optional fields if they have a real value
+    if (formData.frontPhotoIdUrl) payload.frontPhotoIdUrl = formData.frontPhotoIdUrl;
+    if (formData.backPhotoIdUrl) payload.backPhotoIdUrl = formData.backPhotoIdUrl;
+    if (formData.email) payload.email = formData.email;
+
+    // Log payload for debugging
+    console.log('Submitting payload:', payload);
 
     this.kycService.submitPersonalDetails(payload).subscribe({
       next: (response) => {
+        const storedData = {
+          ...payload,
+          customerId: response.id || response.customerId
+        };
+        localStorage.setItem('step1Data', JSON.stringify(storedData));
+        localStorage.setItem('customerId', storedData.customerId?.toString());
+
         this.router.navigate(['/step2']);
         this.snackBar.open('Personal information saved successfully', 'Close', {
           duration: 3000,
@@ -186,8 +206,13 @@ export class Step1Component implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.isSubmitting = false;
-        const errorMessage = error.status === 409 ? 'This phone number is already registered.' : 'Error submitting form. Please try again.';
-        this.snackBar.open(errorMessage, 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+        const errorMessage = error.status === 409
+          ? 'This phone number is already registered.'
+          : 'Error submitting form. Please try again.';
+        this.snackBar.open(errorMessage, 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
       },
       complete: () => {
         this.isSubmitting = false;
