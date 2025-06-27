@@ -1,6 +1,7 @@
 <div class="kyc-container">
   <ion-card class="kyc-card">
-    <!-- Header Section (No changes) -->
+
+    <!-- Header: Icon, Title, Description, and Progress Indicator -->
     <div class="header-content">
       <div class="header-left">
         <div class="header-icon">
@@ -11,13 +12,20 @@
           <p>Please provide your email address for verification</p>
         </div>
       </div>
+
+      <!-- Step Completion Indicator -->
       <div class="completion-indicator">
         <div class="progress-circle">
           <svg width="40" height="40">
             <circle class="progress-ring-bg" cx="20" cy="20" r="16" />
-            <circle class="progress-ring-circle" cx="20" cy="20" r="16"
-                    [style.strokeDasharray]="100.5"
-                    [style.strokeDashoffset]="0" />
+            <circle
+              class="progress-ring-circle"
+              cx="20"
+              cy="20"
+              r="16"
+              [style.strokeDasharray]="100.5"
+              [style.strokeDashoffset]="0"
+            />
           </svg>
           <span class="percentage">100%</span>
         </div>
@@ -28,47 +36,77 @@
       </div>
     </div>
 
+    <!-- Progress Bar Component -->
     <app-step-progress [currentStep]="3"></app-step-progress>
 
+    <!-- Email Form Section -->
     <form [formGroup]="emailForm" class="form-section" (ngSubmit)="onSubmit()">
       <div class="form-header">
         <h3 class="form-title">Email Address</h3>
-        <p class="form-description">We'll send you important updates and notifications here</p>
+        <p class="form-description">
+          We'll send you important updates and notifications here
+        </p>
       </div>
 
-      <!-- --- EMAIL FIELD WRAPPER --- -->
+      <!-- Email Input Field with Error Handling -->
       <div class="field-wrapper">
-        <!-- --- MODIFIED ion-item --- -->
         <ion-item class="form-item" lines="none">
-          <!-- REMOVED: <ion-label position="stacked">Email address</ion-label> -->
           <ion-input
             formControlName="email"
             type="email"
-            placeholder="Email Address*">
-          </ion-input>
+            placeholder="Email Address*"
+          ></ion-input>
           <ion-icon name="mail-outline" slot="end"></ion-icon>
         </ion-item>
-        
-        <!-- Error messages now go in a container for better positioning -->
-        <div *ngIf="emailForm.get('email')?.invalid && emailForm.get('email')?.touched" class="error-message-container">
-          <span *ngIf="emailForm.get('email')?.hasError('required')" class="error-message">Email address is required</span>
-          <span *ngIf="emailForm.get('email')?.hasError('email')" class="error-message">Please enter a valid email address</span>
+
+        <!-- Validation Messages -->
+        <div
+          *ngIf="emailForm.get('email')?.invalid && emailForm.get('email')?.touched"
+          class="error-message-container"
+        >
+          <span
+            *ngIf="emailForm.get('email')?.hasError('required')"
+            class="error-message"
+            >Email address is required</span
+          >
+          <span
+            *ngIf="emailForm.get('email')?.hasError('email')"
+            class="error-message"
+            >Please enter a valid email address</span
+          >
         </div>
       </div>
-      <!-- --- END OF EMAIL FIELD WRAPPER --- -->
 
+      <!-- Optional Hint -->
       <p class="form-hint">We'll never share your email with anyone else</p>
 
-      <!-- Action Buttons (No changes) -->
+      <!-- Form Navigation Buttons -->
       <div class="action-buttons">
-        <ion-button fill="outline" class="back-button nav-button" type="button" [disabled]="isSubmitting" (click)="onBack()">
+        <ion-button
+          fill="outline"
+          class="back-button nav-button"
+          type="button"
+          [disabled]="isSubmitting"
+          (click)="onBack()"
+        >
           <ion-icon name="arrow-back" slot="start"></ion-icon>
           Back
         </ion-button>
-        <ion-button fill="solid" color="primary" class="next-button nav-button submit-button" type="submit" [disabled]="emailForm.invalid || isSubmitting">
+
+        <ion-button
+          fill="solid"
+          color="primary"
+          class="next-button nav-button submit-button"
+          type="submit"
+          [disabled]="emailForm.invalid || isSubmitting"
+        >
           <span>Submit</span>
           <ion-icon *ngIf="!isSubmitting" name="send" slot="end"></ion-icon>
-          <mat-spinner *ngIf="isSubmitting" diameter="20" class="spinner-in-button"></mat-spinner>
+          <mat-spinner
+            *ngIf="isSubmitting"
+            diameter="20"
+            class="spinner-in-button"
+          ></mat-spinner>
         </ion-button>
       </div>
     </form>

@@ -1,24 +1,25 @@
 ion-card.kyc-card {
   max-width: 900px;
+  width: 100%;
   margin: 1.5rem auto;
   padding: 0;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
 }
 
+/* Header */
 .card-header {
   margin-bottom: 0;
   border-bottom: none;
 }
 
 .header-content {
-  padding: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
+  padding: 1.5rem;
   border-bottom: 1px solid #E2E8F0;
   margin-bottom: 1.5rem;
 }
@@ -66,6 +67,7 @@ ion-card.kyc-card {
   line-height: 1.5;
 }
 
+/* Completion Indicator */
 .completion-indicator {
   display: flex;
   align-items: center;
@@ -87,8 +89,8 @@ ion-card.kyc-card {
 }
 
 .progress-circle svg {
-  transform: rotate(-90deg);
   position: absolute;
+  transform: rotate(-90deg);
 }
 
 .progress-ring-bg {
@@ -102,7 +104,6 @@ ion-card.kyc-card {
   stroke: #1976d2;
   stroke-width: 3;
   transition: stroke-dashoffset 0.3s ease;
-  transform: rotate(0deg);
   transform-origin: center;
 }
 
@@ -133,19 +134,21 @@ ion-card.kyc-card {
   color: #1E293B;
 }
 
+/* Progress Steps */
 .progress-steps {
-  margin: 0 0 2rem 0;
-  padding: 0 1.5rem;
   display: flex;
   justify-content: space-between;
+  padding: 0 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .progress-steps > app-step-progress {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
+/* Form Sections */
 .form-section {
   padding: 1rem 1.5rem;
 }
@@ -156,9 +159,9 @@ ion-card.kyc-card {
 
 .form-title {
   font-size: 1.1rem;
-  margin-bottom: 0.25rem;
-  color: #1E293B;
   font-weight: 500;
+  color: #1E293B;
+  margin-bottom: 0.25rem;
 }
 
 .form-description {
@@ -173,6 +176,7 @@ ion-card.kyc-card {
   gap: 1.5rem;
 }
 
+/* Upload Area */
 .upload-section {
   margin-bottom: 24px;
 }
@@ -181,16 +185,16 @@ ion-card.kyc-card {
   border: 2px dashed #e2e8f0;
   border-radius: 8px;
   padding: 1rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
   min-height: 160px;
+  background: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  background: #f8fafc;
 }
 
 .upload-area:hover {
@@ -203,21 +207,19 @@ ion-card.kyc-card {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  color: #64748b;
+  color: #64748B;
   font-size: 1rem;
 }
 
 .upload-icon {
   font-size: 2rem;
-  width: 2rem;
-  height: 2rem;
-  color: #64748b;
+  color: #64748B;
   margin-bottom: 0.5rem;
 }
 
 .file-hint {
   font-size: 0.875rem;
-  color: #64748b;
+  color: #64748B;
 }
 
 .preview-wrapper {
@@ -234,25 +236,21 @@ ion-card.kyc-card {
   max-height: 160px;
   object-fit: contain;
   border-radius: 4px;
-  display: block;
 }
 
 .remove-button {
   position: absolute;
   top: 8px;
   right: 8px;
+  width: 30px;
+  height: 30px;
   z-index: 2;
   --background: rgba(255, 255, 255, 0.9);
-  --background-activated: rgba(255, 255, 255, 1);
-  --background-focused: rgba(255, 255, 255, 1);
+  --background-activated: white;
+  --background-focused: white;
   --color: #dc2626;
   --padding-start: 0;
   --padding-end: 0;
-  --padding-top: 0;
-  --padding-bottom: 0;
-  width: 30px;
-  height: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .remove-button ion-icon {
@@ -266,21 +264,22 @@ form:last-child .upload-section {
   margin: 0 auto 24px auto;
 }
 
+/* Buttons */
 .action-buttons {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
 }
 
 .nav-button {
   min-width: 120px;
-  --height: 40px;
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
+  --height: 40px;
   --border-radius: 4px;
   --padding-start: 16px;
   --padding-end: 16px;
@@ -302,16 +301,17 @@ ion-button.next-button {
 }
 
 .spinner-in-button {
-   margin-inline-start: 8px;
+  margin-inline-start: 8px;
 }
 
+/* Loading Overlay */
 .loading-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -322,6 +322,7 @@ ion-button.next-button {
   transform: scale(0.8);
 }
 
+/* Media Queries */
 @media (max-width: 1024px) {
   ion-card.kyc-card {
     max-width: 800px;
@@ -336,28 +337,22 @@ ion-button.next-button {
 
   .header-content {
     flex-direction: column;
+    align-items: flex-start;
     padding: 1rem;
     gap: 1rem;
-    align-items: flex-start;
     margin-bottom: 1rem;
   }
 
-  .header-left {
-    width: 100%;
-  }
-
+  .header-left,
   .completion-indicator {
     width: 100%;
-    min-width: unset;
     justify-content: center;
   }
 
-  .progress-steps {
-    padding: 0 1rem;
-  }
-
+  .progress-steps,
+  .upload-sections,
   .form-section {
-    padding: 1rem;
+    padding: 0 1rem;
   }
 
   .form-grid {
@@ -431,82 +426,25 @@ ion-button.next-button {
   }
 
   .upload-area {
-     min-height: 120px;
-     padding: 0.5rem;
-  }
-   .preview-image {
-     max-height: 120px;
-   }
-    .upload-placeholder {
-        font-size: 0.8rem;
-    }
-    .upload-icon {
-        font-size: 1.5rem;
-        width: 1.5rem;
-        height: 1.5rem;
-    }
-     .file-hint {
-        font-size: 0.75rem;
-    }
-}
-
-.loading-overlay mat-spinner {
-  transform: scale(0.8);
-}
-
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    padding: 1rem;
-    gap: 1rem;
-    align-items: flex-start;
-    margin-bottom: 1rem;
+    min-height: 120px;
+    padding: 0.5rem;
   }
 
-  .header-left {
-    width: 100%;
+  .preview-image {
+    max-height: 120px;
   }
 
-  .completion-indicator {
-    width: 100%;
-    min-width: unset;
-    justify-content: center;
+  .upload-placeholder {
+    font-size: 0.8rem;
   }
 
-  .progress-steps {
-    padding: 0 1rem;
-  }
-
-  .upload-sections {
-    padding: 0 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .header-content {
-    padding: 1rem;
-  }
-
-  .header-left {
-    gap: 0.75rem;
-  }
-
-  .header-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .header-icon ion-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-  }
-
-  .header-text h2 {
+  .upload-icon {
     font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
-  .header-text p {
-    font-size: 1rem;
+  .file-hint {
+    font-size: 0.75rem;
   }
 }

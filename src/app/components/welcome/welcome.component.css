@@ -1,39 +1,36 @@
-/* --- Base Container Styling --- */
-/* Target the host component to ensure ion-content can fill the height */
+/* Host styling ensures proper layout within the Ionic app shell */
 :host {
-  /* This allows the inner scroll-content to have a flexible height */
   --offset-bottom: auto !important;
 }
 
+/* Page background */
 ion-content {
   --background: #f8f9fa;
 }
 
-/* --- Centering Container --- */
-/* This div sits inside ion-content and handles the centering of the card.
-   Using a div is more robust than styling ion-content directly. */
+/* Centered container for content */
 .welcome-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center;   /* Center vertically */
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  min-height: 100%; /* Ensure it takes up full height of the scroll area */
+  min-height: 100%;
   padding: 1.5rem;
   box-sizing: border-box;
 }
 
-/* --- Card Styling --- */
+/* Main card styling */
 .welcome-card {
   max-width: 600px;
   width: 100%;
   padding: 2.5rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
   background: #fff;
+  border-radius: 16px;
   border: 1px solid #f0f0f0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-/* --- Header Section --- */
+/* Header section */
 .welcome-header {
   display: flex;
   flex-direction: column;
@@ -56,9 +53,9 @@ h1 {
   line-height: 1.2;
 }
 
-/* --- Body Content --- */
+/* Body text section */
 .welcome-body {
-  /* This class now wraps the main informational content */
+  /* Contains description and steps */
 }
 
 .welcome-description {
@@ -70,7 +67,7 @@ h1 {
   max-width: 50ch;
 }
 
-/* --- Steps Overview Section --- */
+/* Steps overview box */
 .steps-overview {
   background: #f8fafc;
   padding: 1.5rem;
@@ -82,8 +79,7 @@ h1 {
 .steps-overview h2 {
   color: #1e293b;
   font-size: 1.25rem;
-  margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin: 0 0 1.5rem 0;
   line-height: 1.3;
 }
 
@@ -100,11 +96,10 @@ h1 {
   display: flex;
   align-items: center;
   color: #475569;
-  line-height: 1.5;
   font-size: 1rem;
+  line-height: 1.5;
 }
 
-/* Be more specific to avoid accidentally styling other icons */
 .steps-overview .step-icon {
   margin-right: 12px;
   color: #1976d2;
@@ -112,28 +107,28 @@ h1 {
   font-size: 22px;
 }
 
-/* --- Time Estimate & Button --- */
+/* Time estimate line */
 .time-estimate {
   display: flex;
   align-items: center;
   justify-content: center;
   color: #64748b;
-  margin-bottom: 2rem; /* Spacing before the final button */
+  margin-bottom: 2rem;
   font-size: 0.95rem;
 }
 
 .time-estimate ion-icon {
   margin-right: 8px;
   font-size: 20px;
-} 
+}
 
+/* Button wrapper */
 .button-container {
   display: flex;
   justify-content: center;
-  /* No top margin needed, spacing is handled by elements above */
 }
 
-/* Styling ion-button */
+/* Get Started button styling */
 .get-started-button {
   --background: #1976d2;
   --background-hover: #1565c0;
@@ -161,16 +156,15 @@ h1 {
   font-size: 20px;
 }
 
-
-/* --- RESPONSIVE MEDIA QUERIES --- */
+/* Responsive adjustments */
 @media (max-width: 480px) {
   .welcome-container {
     padding: 1rem;
-    align-items: flex-start; /* On small/short screens, align to top */
+    align-items: flex-start;
   }
   .welcome-card {
     padding: 1.5rem;
-    margin-top: 1rem; /* Add space from the top on mobile */
+    margin-top: 1rem;
   }
   h1 {
     font-size: 1.5rem;
@@ -193,7 +187,7 @@ h1 {
   }
 }
 
-/* --- ACCESSIBILITY --- */
+/* Accessibility: disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .get-started-button {
     transition: none;
@@ -201,8 +195,15 @@ h1 {
   }
 }
 
+/* High contrast mode support */
 @media (forced-colors: active) {
-  .welcome-card { border: 2px solid ButtonText; }
-  .steps-overview { border: 1px solid ButtonText; }
-  .get-started-button { border: 2px solid ButtonText; }
+  .welcome-card {
+    border: 2px solid ButtonText;
+  }
+  .steps-overview {
+    border: 1px solid ButtonText;
+  }
+  .get-started-button {
+    border: 2px solid ButtonText;
+  }
 }

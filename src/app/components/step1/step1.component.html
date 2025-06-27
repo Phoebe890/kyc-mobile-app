@@ -5,7 +5,8 @@
 <ion-content [fullscreen]="true">
   <div class="page-container">
     <ion-card class="kyc-card">
-      <!-- Header Section -->
+
+      <!-- Form Section Header with Progress Indicator -->
       <div class="header-content">
         <div class="header-left">
           <div class="header-icon">
@@ -33,12 +34,14 @@
         </div>
       </div>
 
-      <!-- Card Body with Form -->
+      <!-- Main Form Content -->
       <div class="card-content">
+        <!-- Step Progress Component -->
         <app-step-progress [currentStep]="1"></app-step-progress>
 
         <form [formGroup]="personalInfoForm" (ngSubmit)="onNext()">
-          <!-- First & Last Name -->
+
+          <!-- First Name & Last Name Fields -->
           <div class="form-row">
             <div class="field-wrapper">
               <label class="static-label" for="firstName">First Name*</label>
@@ -49,6 +52,7 @@
                 <span *ngIf="firstName?.hasError('required')" class="error-message">First name is required</span>
               </div>
             </div>
+
             <div class="field-wrapper">
               <label class="static-label" for="lastName">Last Name*</label>
               <ion-item class="form-item" lines="none">
@@ -60,7 +64,7 @@
             </div>
           </div>
 
-          <!-- Phone & Employment -->
+          <!-- Phone Number & Employment Status Fields -->
           <div class="form-row">
             <div class="field-wrapper phone-field-wrapper">
               <label class="static-label">Phone Number*</label>
@@ -79,6 +83,7 @@
                 <span class="error-message">A valid phone number is required</span>
               </div>
             </div>
+
             <div class="field-wrapper">
               <label class="static-label">Employment Status*</label>
               <ion-item class="form-item" lines="none">
@@ -92,9 +97,8 @@
             </div>
           </div>
 
-          <!-- DOB & County -->
+          <!-- Date of Birth & County Fields -->
           <div class="form-row">
-            <!-- DOB Field -->
             <div class="field-wrapper">
               <label class="static-label">Date of Birth*</label>
               <ion-item class="form-item" lines="none" id="popover-trigger">
@@ -116,7 +120,7 @@
                 </ng-template>
               </ion-popover>
             </div>
-            <!-- County Field -->
+
             <div class="field-wrapper">
               <label class="static-label">County*</label>
               <ion-item class="form-item" lines="none">
@@ -130,7 +134,7 @@
             </div>
           </div>
 
-          <!-- Action Buttons -->
+          <!-- Navigation Buttons -->
           <div class="action-buttons">
             <ion-button fill="outline" class="back-button nav-button" [disabled]="true" type="button">
               <ion-icon name="arrow-back" slot="start"></ion-icon> Back

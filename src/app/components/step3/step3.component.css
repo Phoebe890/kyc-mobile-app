@@ -1,7 +1,7 @@
 .kyc-container {
   padding: 20px;
   min-height: 100vh;
-  background: #f8fafc;
+  background: #f8fafc; /* Light background for the entire form */
 }
 
 ion-card.kyc-card {
@@ -76,6 +76,7 @@ ion-card.kyc-card {
   min-width: 200px;
 }
 
+/* Circular progress indicator styles */
 .progress-circle {
   position: relative;
   width: 40px;
@@ -153,12 +154,11 @@ ion-card.kyc-card {
   font-size: 0.875rem;
 }
 
-/* --- STYLES COPIED/ADAPTED FROM STEP 1 --- */
-
+/* Reusable form field wrapper to reserve space for errors */
 .field-wrapper {
   position: relative;
   width: 100%;
-  min-height: 70px; /* Reserve space for field and error message */
+  min-height: 70px;
 }
 
 ion-item.form-item {
@@ -174,15 +174,18 @@ ion-item.form-item {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Focused input state */
 ion-item.form-item.item-has-focus {
   --border-color: #1976d2;
   box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
+/* Invalid input style */
 ion-item.form-item.ion-invalid.ion-touched {
   --border-color: #EF4444 !important;
 }
 
+/* Input and icon styles */
 ion-item.form-item ion-input {
   --color: #1E293B;
   --placeholder-color: #6b7280;
@@ -195,6 +198,7 @@ ion-item.form-item ion-icon[slot="end"] {
   font-size: 20px;
 }
 
+/* Validation message */
 .error-message-container {
   position: absolute;
   top: 48px;
@@ -208,15 +212,15 @@ ion-item.form-item ion-icon[slot="end"] {
   display: block;
   margin-top: 4px;
 }
-/* --- END OF COPIED STYLES --- */
 
 .form-hint {
   font-size: 12px;
   color: #64748B;
   margin-top: 4px;
-  margin-bottom: 1.5rem; /* Give some space before the buttons */
+  margin-bottom: 1.5rem;
 }
 
+/* Button container */
 .action-buttons {
   display: flex;
   justify-content: space-between;
@@ -235,11 +239,13 @@ ion-item.form-item ion-icon[slot="end"] {
   --border-radius: 8px;
 }
 
+/* Back button styling */
 ion-button.back-button {
   --border-color: #1976d2;
   --color: #1976d2;
 }
 
+/* Next/submit button styling */
 ion-button.next-button.submit-button {
   --background: #1976d2;
   --color: white;
@@ -247,9 +253,10 @@ ion-button.next-button.submit-button {
 }
 
 .spinner-in-button {
-   margin-inline-start: 8px;
+  margin-inline-start: 8px;
 }
 
+/* Responsive layout for tablets */
 @media (max-width: 768px) {
   .header-content {
     flex-direction: column;
@@ -285,11 +292,13 @@ ion-button.next-button.submit-button {
   }
 }
 
+/* Responsive layout for small devices */
 @media (max-width: 480px) {
   .header-text h2 {
     font-size: 1.2rem;
   }
+
   .action-buttons ion-button {
-     --height: 48px;
+    --height: 48px;
   }
 }

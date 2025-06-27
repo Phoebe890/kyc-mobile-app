@@ -7,7 +7,6 @@ import { KycService } from '../../services/kyc.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 
-// --- All necessary Ionic standalone components ---
 import {
   IonHeader,
   IonToolbar,
@@ -25,15 +24,12 @@ import {
   IonPopover,
 } from '@ionic/angular/standalone';
 
-// --- Icon registration ---
 import { addIcons } from 'ionicons';
 import { person, calendarOutline, arrowBack, arrowForward } from 'ionicons/icons';
 
-// --- Third-party modules ---
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 
-// --- Custom shared components ---
 import { StepProgressComponent } from '../../shared/components/step-progress/step-progress.component';
 
 export type EmploymentStatus = 'employed' | 'self-employed' | 'unemployed' | 'student' | 'retired';
@@ -46,8 +42,6 @@ export type EmploymentStatus = 'employed' | 'self-employed' | 'unemployed' | 'st
     CommonModule,
     StepProgressComponent,
     NgxIntlTelInputModule,
-
-    // All necessary Ionic components
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -63,12 +57,10 @@ export type EmploymentStatus = 'employed' | 'self-employed' | 'unemployed' | 'st
     IonDatetime,
     IonPopover,
   ],
-  providers: [
-    DatePipe
-  ],
+  providers: [DatePipe],
   templateUrl: './step1.component.html',
   styleUrls: [
-    '../../shared/styles/kyc-form.scss', // Ensure this path is correct
+    '../../shared/styles/kyc-form.scss',
     './step1.component.css'
   ]
 })
@@ -81,11 +73,17 @@ export class Step1Component implements OnInit {
   CountryISO = CountryISO;
   SearchCountryField = SearchCountryField;
   PhoneNumberFormat = PhoneNumberFormat;
-  preferredCountries: CountryISO[] = [CountryISO.Kenya, CountryISO.Uganda, CountryISO.Tanzania, CountryISO.Ethiopia, CountryISO.Rwanda];
+  preferredCountries: CountryISO[] = [
+    CountryISO.Kenya,
+    CountryISO.Uganda,
+    CountryISO.Tanzania,
+    CountryISO.Ethiopia,
+    CountryISO.Rwanda
+  ];
 
   maxDateString: string;
 
-  employmentOptions: { value: EmploymentStatus; label: string }[] = [
+  employmentOptions = [
     { value: 'employed', label: 'Employed' },
     { value: 'self-employed', label: 'Self Employed' },
     { value: 'unemployed', label: 'Unemployed' },
@@ -100,17 +98,21 @@ export class Step1Component implements OnInit {
     private kycService: KycService,
     private snackBar: MatSnackBar
   ) {
+    // Register icons for use in the template
     addIcons({
       person,
       'calendar-outline': calendarOutline,
       'arrow-back': arrowBack,
       'arrow-forward': arrowForward
     });
+
+    // Set max date (today) for date picker
     const today = new Date();
     this.maxDateString = today.toISOString().split('T')[0];
   }
 
   ngOnInit() {
+    // Initialize reactive form with validation rules
     this.personalInfoForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z\s'-]+$/)]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z\s'-]+$/)]],
@@ -119,9 +121,11 @@ export class Step1Component implements OnInit {
       dateOfBirth: [null, [Validators.required, this.ageValidator(18)]],
       county: ['', [Validators.required]]
     });
+
     this.loadCounties();
   }
 
+  // Form control getters for template use
   get firstName() { return this.personalInfoForm.get('firstName'); }
   get lastName() { return this.personalInfoForm.get('lastName'); }
   get phoneNumber() { return this.personalInfoForm.get('phoneNumber'); }
@@ -129,6 +133,7 @@ export class Step1Component implements OnInit {
   get dateOfBirth() { return this.personalInfoForm.get('dateOfBirth'); }
   get county() { return this.personalInfoForm.get('county'); }
 
+  // Custom validator to enforce minimum age
   ageValidator(minAge: number) {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) return null;
@@ -143,18 +148,29 @@ export class Step1Component implements OnInit {
     };
   }
 
+  // Load counties from API
   loadCounties() {
     this.isLoadingCounties = true;
     this.countyService.getCounties().subscribe({
-      next: (counties) => { this.counties = counties; this.isLoadingCounties = false; },
-      error: (error) => { console.error('Error loading counties:', error); this.isLoadingCounties = false; }
+      next: (counties) => {
+        this.counties = counties;
+        this.isLoadingCounties = false;
+      },
+      error: (error) => {
+        console.error('Error loading counties:', error);
+        this.isLoadingCounties = false;
+      }
     });
   }
 
+  // Form submission handler
   onNext() {
     if (this.personalInfoForm.invalid) {
       this.markFormGroupTouched(this.personalInfoForm);
-      this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 3000, panelClass: ['warning-snackbar'] });
+      this.snackBar.open('Please fill in all required fields correctly', 'Close', {
+        duration: 3000,
+        panelClass: ['warning-snackbar']
+      });
       return;
     }
 
@@ -162,15 +178,15 @@ export class Step1Component implements OnInit {
     const formData = this.personalInfoForm.getRawValue();
     const formattedDate = new Date(formData.dateOfBirth).toISOString().split('T')[0];
 
-    // Ensure phoneNumber is a string (handle both ngx-intl-tel-input and plain string)
+    // Format phone number to E.164 format if needed
     let phoneNumber: string = '';
     if (typeof formData.phoneNumber === 'string') {
       phoneNumber = formData.phoneNumber;
-    } else if (formData.phoneNumber && formData.phoneNumber.e164Number) {
+    } else if (formData.phoneNumber?.e164Number) {
       phoneNumber = formData.phoneNumber.e164Number;
     }
 
-    // Construct payload with only the fields expected by the backend and omit nulls
+    // Build submission payload
     const payload: any = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -181,12 +197,12 @@ export class Step1Component implements OnInit {
       selfieImageUrl: "https://res.cloudinary.com/drkmm8xka/image/upload/v1747140876/file.jpg",
       isCaptured: false
     };
-    // Only add optional fields if they have a real value
+
+    // Add optional fields if present
     if (formData.frontPhotoIdUrl) payload.frontPhotoIdUrl = formData.frontPhotoIdUrl;
     if (formData.backPhotoIdUrl) payload.backPhotoIdUrl = formData.backPhotoIdUrl;
     if (formData.email) payload.email = formData.email;
 
-    // Log payload for debugging
     console.log('Submitting payload:', payload);
 
     this.kycService.submitPersonalDetails(payload).subscribe({
@@ -195,6 +211,7 @@ export class Step1Component implements OnInit {
           ...payload,
           customerId: response.id || response.customerId
         };
+
         localStorage.setItem('step1Data', JSON.stringify(storedData));
         localStorage.setItem('customerId', storedData.customerId?.toString());
 
@@ -220,6 +237,7 @@ export class Step1Component implements OnInit {
     });
   }
 
+  // Mark all form fields as touched to trigger validation messages
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();

@@ -1,23 +1,24 @@
-<!-- The .welcome-container class is now on a div inside ion-content -->
 <ion-content>
   <div class="welcome-container">
     <ion-card class="welcome-card">
+      
+      <!-- Header with icon and title -->
       <div class="welcome-header">
         <ion-icon name="shield-checkmark" class="welcome-icon"></ion-icon>
         <h1>Welcome to KYC Verification</h1>
       </div>
       
-      <!-- Grouping content and the final action button together semantically -->
+      <!-- Body section with instructions and requirements -->
       <div class="welcome-body">
         <p class="welcome-description">
           We're here to help you complete your Know Your Customer (KYC) verification process. This will only take a few minutes.
         </p>
         
+        <!-- Checklist of required items for verification -->
         <div class="steps-overview">
           <h2>What you'll need:</h2>
           <ul>
             <li>
-              <!-- Using the existing class for more specific CSS targeting -->
               <ion-icon name="person" class="step-icon"></ion-icon>
               <span>Personal Information</span>
             </li>
@@ -36,18 +37,21 @@
           </ul>
         </div>
 
+        <!-- Display estimated completion time -->
         <div class="time-estimate">
           <ion-icon name="time-outline"></ion-icon>
-          <span>Estimated time: 5-10 minutes</span>
+          <span>Estimated time: 5–10 minutes</span>
         </div>
       </div>
 
+      <!-- Final call-to-action button -->
       <div class="button-container">
         <ion-button class="get-started-button" (click)="onContinue()">
           <ion-icon name="arrow-forward" slot="start"></ion-icon>
           Get Started
         </ion-button>
       </div>
+
     </ion-card>
   </div>
 </ion-content>

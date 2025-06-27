@@ -1,29 +1,21 @@
-/**************************************************/
-/* --- Base Page & Container Styling --- */
-/**************************************************/
-
-/* Use Ionic's CSS variable to set the page background */
+/* Set page background color using Ionic's variable */
 ion-content {
   --background: #f5f5f5;
 }
 
+/* Center content within the success container */
 .success-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100%; /* Use 100% to fill ion-content */
+  min-height: 100%;
   width: 100%;
   padding: 1rem;
   box-sizing: border-box;
 }
 
-/**************************************************/
-/* --- Card Styling --- */
-/**************************************************/
-
-/* Target ion-card and apply the original card styles */
+/* Style the success card */
 ion-card.success-card {
-  /* Remove Ionic's default margin and padding */
   margin: 0;
   padding: 2rem;
   text-align: center;
@@ -34,14 +26,12 @@ ion-card.success-card {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/**************************************************/
-/* --- Icon, Text, and Button Styling --- */
-/**************************************************/
-
+/* Success icon wrapper */
 .success-icon {
   margin: 1.5rem auto;
 }
 
+/* Green circular icon background */
 .circle {
   width: 80px;
   height: 80px;
@@ -54,12 +44,13 @@ ion-card.success-card {
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
-/* Target ion-icon within the circle */
+/* Icon inside the green circle */
 .circle ion-icon {
-  font-size: 48px; /* For ion-icon, font-size is usually enough */
+  font-size: 48px;
   color: white;
 }
 
+/* Title text styling */
 h1 {
   font-size: 24px;
   margin-bottom: 1rem;
@@ -68,6 +59,7 @@ h1 {
   line-height: 1.2;
 }
 
+/* Description text styling */
 p {
   font-size: 16px;
   color: #666;
@@ -75,7 +67,7 @@ p {
   line-height: 1.5;
 }
 
-/* Style the ion-button to look like the original button */
+/* Customize the "Finish" button */
 ion-button.finish-button {
   --background: #4CAF50;
   --background-hover: #45a049;
@@ -86,53 +78,101 @@ ion-button.finish-button {
   --padding-bottom: 12px;
   --padding-start: 24px;
   --padding-end: 24px;
-
-  /* Additional properties for custom look */
+  
   height: auto;
   min-width: 150px;
   font-size: 16px;
-  text-transform: none; /* Ionic buttons are uppercase by default */
+  text-transform: none;
   margin-top: 1rem;
   transition: all 0.3s ease;
 }
 
+/* Add subtle hover effect to button */
 ion-button.finish-button:hover {
   transform: translateY(-1px);
   --box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
 }
 
-/**************************************************/
-/* --- Responsive & Accessibility (Unchanged) --- */
-/* This block is standard CSS and works perfectly */
-/**************************************************/
-
+/* Responsive adjustments for tablet */
 @media (max-width: 768px) {
-  ion-card.success-card { padding: 1.5rem; width: 95%; }
-  .circle { width: 70px; height: 70px; }
-  .circle ion-icon { font-size: 40px; }
-  h1 { font-size: 22px; }
-  p { font-size: 15px; }
+  ion-card.success-card {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .circle {
+    width: 70px;
+    height: 70px;
+  }
+
+  .circle ion-icon {
+    font-size: 40px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  p {
+    font-size: 15px;
+  }
 }
 
+/* Responsive adjustments for mobile */
 @media (max-width: 480px) {
-  .success-container { padding: 1rem 0.5rem; }
-  ion-card.success-card { padding: 1.25rem; width: 100%; }
-  .success-icon { margin: 1rem auto; }
-  .circle { width: 60px; height: 60px; }
-  .circle ion-icon { font-size: 35px; }
-  h1 { font-size: 20px; margin-bottom: 0.75rem; }
-  p { font-size: 14px; margin-bottom: 1.5rem; }
-  ion-button.finish-button { width: 100%; }
+  .success-container {
+    padding: 1rem 0.5rem;
+  }
+
+  ion-card.success-card {
+    padding: 1.25rem;
+    width: 100%;
+  }
+
+  .success-icon {
+    margin: 1rem auto;
+  }
+
+  .circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .circle ion-icon {
+    font-size: 35px;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  ion-button.finish-button {
+    width: 100%;
+  }
 }
 
+/* Accessibility: disable animations for reduced motion users */
 @media (prefers-reduced-motion: reduce) {
-  ion-button.finish-button, .circle {
+  ion-button.finish-button,
+  .circle {
     transition: none;
     transform: none;
   }
 }
 
+/* Accessibility: support high contrast themes */
 @media (forced-colors: active) {
-  .circle { border: 2px solid ButtonText; }
-  ion-button.finish-button { border: 2px solid ButtonText; }
+  .circle {
+    border: 2px solid ButtonText;
+  }
+
+  ion-button.finish-button {
+    border: 2px solid ButtonText;
+  }
 }
