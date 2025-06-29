@@ -26,7 +26,7 @@ interface DocumentResponse {
   providedIn: 'root'//makes the service available in the app
 })
 export class KycService {
-  private apiUrl = 'http://localhost:8081';//base url for the backend
+  private apiUrl = 'https://phoebekyc.site';//base url for the backend
   private route = inject(Router);
 
   constructor(private http: HttpClient) {}
@@ -72,7 +72,7 @@ export class KycService {
 
     console.log('Sending payload to backend:', payload); // Debug log
 //send POST request to create a new customer
-    return this.http.post<CustomerResponse>(`${this.apiUrl}/new-customer`, payload).pipe(
+    return this.http.post<CustomerResponse>(`${this.apiUrl}/kyc/new-customer`, payload).pipe(
       tap(response => {
         //on success ,store returned customerid and formdata in local storage
         const storedData = {
@@ -110,7 +110,7 @@ export class KycService {
     // Add customerId to the FormData
     formData.append('customerId', customerId.toString());
 //send PUT request to upload documents
-    return this.http.put<DocumentResponse>(`${this.apiUrl}/upload-documents/${customerId}`, formData, {
+    return this.http.put<DocumentResponse>(`${this.apiUrl}/kyc/upload-documents/${customerId}`, formData, {
       headers: {
         'Accept': 'application/json'
       }
@@ -145,7 +145,7 @@ export class KycService {
     const params = new URLSearchParams();
     params.append('email', email);
 //send PUT request to upload email
-    return this.http.put(`${this.apiUrl}/upload-email/${customerId}?${params.toString()}`, null, {
+    return this.http.put(`${this.apiUrl}/kyc/upload-email/${customerId}?${params.toString()}`, null, {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).pipe(
       tap(response => console.log('Email Response:', response)),
