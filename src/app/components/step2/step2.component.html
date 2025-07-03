@@ -40,7 +40,8 @@
   </div>
 
   <!-- Form Section: Upload Front and Back of ID -->
-  <form [formGroup]="idForm" class="form-section">
+  <!-- Note: The outer form tag is kept for structure, but individual forms are handled in the component -->
+  <div class="form-section">
     <div class="form-header">
       <h3 class="form-title">ID Document Photos</h3>
       <p class="form-description">Upload clear photos of the front and back of your ID</p>
@@ -49,14 +50,8 @@
     <div class="form-grid">
       <!-- Front of ID Upload -->
       <div class="upload-section">
-        <div class="upload-area" (click)="frontInput.click()">
-          <input
-            #frontInput
-            type="file"
-            hidden
-            accept="image/*"
-            (change)="onFileSelected($event, 'front')"
-          >
+        <!-- MODIFIED: Click event calls selectImage('front') and <input> is removed -->
+        <div class="upload-area" (click)="selectImage('front')">
           <div *ngIf="!previews['front']" class="upload-placeholder">
             <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
             <p>Click to upload front of ID</p>
@@ -79,14 +74,8 @@
 
       <!-- Back of ID Upload -->
       <div class="upload-section">
-        <div class="upload-area" (click)="backInput.click()">
-          <input
-            #backInput
-            type="file"
-            hidden
-            accept="image/*"
-            (change)="onFileSelected($event, 'back')"
-          >
+        <!-- MODIFIED: Click event calls selectImage('back') and <input> is removed -->
+        <div class="upload-area" (click)="selectImage('back')">
           <div *ngIf="!previews['back']" class="upload-placeholder">
             <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
             <p>Click to upload back of ID</p>
@@ -107,27 +96,21 @@
         </div>
       </div>
     </div>
-  </form>
+  </div>
 
   <!-- Form Section: Upload or Take Selfie -->
-  <form [formGroup]="documentForm" class="form-section">
+  <div class="form-section">
     <div class="form-header">
       <h3 class="form-title">Selfie Verification</h3>
-      <p class="form-description">Take a clear selfie of your face</p>
+      <p class="form-description">Upload a clear selfie of your face</p>
     </div>
 
     <div class="upload-section">
-      <div class="upload-area" (click)="selfieInput.click()">
-        <input
-          #selfieInput
-          type="file"
-          hidden
-          accept="image/*"
-          (change)="onSelfieSelected($event)"
-        >
+      <!-- MODIFIED: Click event calls selectImage('selfie') and <input> is removed -->
+      <div class="upload-area" (click)="selectImage('selfie')">
         <div *ngIf="!selfiePreview" class="upload-placeholder">
           <ion-icon name="camera-outline" class="upload-icon"></ion-icon>
-          <p>Click to take or upload a selfie</p>
+          <p>Click to upload a selfie</p>
           <span class="file-hint">Make sure your face is clearly visible</span>
         </div>
         <div *ngIf="selfiePreview" class="preview-wrapper">
@@ -163,7 +146,7 @@
         fill="solid"
         color="primary"
         class="next-button nav-button"
-        type="submit"
+        type="button"
         [disabled]="idForm.invalid || documentForm.invalid || isSubmitting"
         (click)="onNext()"
         aria-label="Next button"
@@ -173,10 +156,6 @@
         <mat-spinner *ngIf="isSubmitting" diameter="20" class="spinner-in-button"></mat-spinner>
       </ion-button>
     </div>
-  </form>
-
-  <!-- Loading Indicator Overlay -->
-  <div class="loading-overlay" *ngIf="isLoading">
-    <mat-spinner></mat-spinner>
   </div>
+
 </ion-card>
