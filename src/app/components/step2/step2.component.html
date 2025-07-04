@@ -40,7 +40,6 @@
   </div>
 
   <!-- Form Section: Upload Front and Back of ID -->
-  <!-- Note: The outer form tag is kept for structure, but individual forms are handled in the component -->
   <div class="form-section">
     <div class="form-header">
       <h3 class="form-title">ID Document Photos</h3>
@@ -50,8 +49,8 @@
     <div class="form-grid">
       <!-- Front of ID Upload -->
       <div class="upload-section">
-        <!-- MODIFIED: Click event calls selectImage('front') and <input> is removed -->
-        <div class="upload-area" (click)="selectImage('front')">
+        <!-- MODIFIED: Click event calls the new action sheet method -->
+        <div class="upload-area" (click)="presentImageActionSheet('front')">
           <div *ngIf="!previews['front']" class="upload-placeholder">
             <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
             <p>Click to upload front of ID</p>
@@ -74,8 +73,8 @@
 
       <!-- Back of ID Upload -->
       <div class="upload-section">
-        <!-- MODIFIED: Click event calls selectImage('back') and <input> is removed -->
-        <div class="upload-area" (click)="selectImage('back')">
+        <!-- MODIFIED: Click event calls the new action sheet method -->
+        <div class="upload-area" (click)="presentImageActionSheet('back')">
           <div *ngIf="!previews['back']" class="upload-placeholder">
             <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
             <p>Click to upload back of ID</p>
@@ -106,8 +105,8 @@
     </div>
 
     <div class="upload-section">
-      <!-- MODIFIED: Click event calls selectImage('selfie') and <input> is removed -->
-      <div class="upload-area" (click)="selectImage('selfie')">
+      <!-- MODIFIED: Click event calls the new action sheet method -->
+      <div class="upload-area" (click)="presentImageActionSheet('selfie')">
         <div *ngIf="!selfiePreview" class="upload-placeholder">
           <ion-icon name="camera-outline" class="upload-icon"></ion-icon>
           <p>Click to upload a selfie</p>
@@ -128,7 +127,7 @@
       </div>
     </div>
 
-    <!-- Navigation Buttons -->
+    <!-- Navigation Buttons (No changes needed) -->
     <div class="action-buttons">
       <ion-button
         fill="outline"

@@ -8,7 +8,6 @@ ion-card.kyc-card {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Header */
 .card-header {
   margin-bottom: 0;
   border-bottom: none;
@@ -67,7 +66,6 @@ ion-card.kyc-card {
   line-height: 1.5;
 }
 
-/* Completion Indicator */
 .completion-indicator {
   display: flex;
   align-items: center;
@@ -134,7 +132,6 @@ ion-card.kyc-card {
   color: #1E293B;
 }
 
-/* Progress Steps */
 .progress-steps {
   display: flex;
   justify-content: space-between;
@@ -148,7 +145,6 @@ ion-card.kyc-card {
   margin: 0 auto;
 }
 
-/* Form Sections */
 .form-section {
   padding: 1rem 1.5rem;
 }
@@ -176,7 +172,6 @@ ion-card.kyc-card {
   gap: 1.5rem;
 }
 
-/* Upload Area */
 .upload-section {
   margin-bottom: 24px;
 }
@@ -264,7 +259,6 @@ form:last-child .upload-section {
   margin: 0 auto 24px auto;
 }
 
-/* Buttons */
 .action-buttons {
   display: flex;
   justify-content: space-between;
@@ -304,7 +298,6 @@ ion-button.next-button {
   margin-inline-start: 8px;
 }
 
-/* Loading Overlay */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -322,7 +315,6 @@ ion-button.next-button {
   transform: scale(0.8);
 }
 
-/* Media Queries */
 @media (max-width: 1024px) {
   ion-card.kyc-card {
     max-width: 800px;
@@ -334,7 +326,6 @@ ion-button.next-button {
     max-width: calc(100% - 2rem);
     margin: 1rem;
   }
-
   .header-content {
     flex-direction: column;
     align-items: flex-start;
@@ -342,56 +333,44 @@ ion-button.next-button {
     gap: 1rem;
     margin-bottom: 1rem;
   }
-
   .header-left,
   .completion-indicator {
     width: 100%;
-    justify-content: center;
   }
-
   .progress-steps,
   .upload-sections,
   .form-section {
     padding: 0 1rem;
   }
-
   .form-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-
   form:last-child .upload-section {
     max-width: 100%;
     margin: 0 0 24px 0;
   }
-
   .upload-area {
     min-height: 140px;
     padding: 0.75rem;
   }
-
   .preview-image {
     max-height: 140px;
   }
-
   .upload-placeholder {
     font-size: 0.9rem;
   }
-
   .upload-icon {
     font-size: 1.75rem;
     width: 1.75rem;
     height: 1.75rem;
   }
-
   .action-buttons {
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
   }
-
-  .back-button,
-  .next-button {
+  .nav-button {
     width: 100%;
     margin-left: 0;
   }
@@ -401,50 +380,43 @@ ion-button.next-button {
   .header-content {
     padding: 1rem;
   }
-
   .header-left {
     gap: 0.75rem;
   }
-
   .header-icon {
     width: 36px;
     height: 36px;
   }
-
   .header-icon ion-icon {
     font-size: 18px;
     width: 18px;
     height: 18px;
   }
-
   .header-text h2 {
     font-size: 1.2rem;
   }
-
   .header-text p {
     font-size: 0.9rem;
   }
-
   .upload-area {
     min-height: 120px;
     padding: 0.5rem;
   }
-
   .preview-image {
     max-height: 120px;
   }
-
   .upload-placeholder {
     font-size: 0.8rem;
   }
-
   .upload-icon {
     font-size: 1.5rem;
     width: 1.5rem;
     height: 1.5rem;
   }
-
   .file-hint {
     font-size: 0.75rem;
+  }
+  .action-buttons {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
   }
 }

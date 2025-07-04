@@ -5,8 +5,6 @@
 <ion-content [fullscreen]="true">
   <div class="page-container">
     <ion-card class="kyc-card">
-
-      <!-- Form Section Header with Progress Indicator -->
       <div class="header-content">
         <div class="header-left">
           <div class="header-icon">
@@ -34,14 +32,10 @@
         </div>
       </div>
 
-      <!-- Main Form Content -->
       <div class="card-content">
-        <!-- Step Progress Component -->
         <app-step-progress [currentStep]="1"></app-step-progress>
 
         <form [formGroup]="personalInfoForm" (ngSubmit)="onNext()">
-
-          <!-- First Name & Last Name Fields -->
           <div class="form-row">
             <div class="field-wrapper">
               <label class="static-label" for="firstName">First Name*</label>
@@ -64,7 +58,6 @@
             </div>
           </div>
 
-          <!-- Phone Number & Employment Status Fields -->
           <div class="form-row">
             <div class="field-wrapper phone-field-wrapper">
               <label class="static-label">Phone Number*</label>
@@ -80,7 +73,8 @@
                 </ngx-intl-tel-input>
               </ion-item>
               <div *ngIf="phoneNumber?.invalid && phoneNumber?.touched" class="error-message-container">
-                <span class="error-message">A valid phone number is required</span>
+                <span *ngIf="phoneNumber?.hasError('required')" class="error-message">A valid phone number is required</span>
+                <span *ngIf="phoneNumber?.hasError('duplicate')" class="error-message">This phone number is already registered.</span>
               </div>
             </div>
 
@@ -97,7 +91,6 @@
             </div>
           </div>
 
-          <!-- Date of Birth & County Fields -->
           <div class="form-row">
             <div class="field-wrapper">
               <label class="static-label">Date of Birth*</label>
@@ -134,7 +127,6 @@
             </div>
           </div>
 
-          <!-- Navigation Buttons -->
           <div class="action-buttons">
             <ion-button fill="outline" class="back-button nav-button" [disabled]="true" type="button">
               <ion-icon name="arrow-back" slot="start"></ion-icon> Back

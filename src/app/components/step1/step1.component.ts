@@ -221,21 +221,35 @@ export class Step1Component implements OnInit {
           panelClass: ['success-snackbar']
         });
       },
-      error: (error: HttpErrorResponse) => {
+           error: (error: HttpErrorResponse) => {
         this.isSubmitting = false;
-        const errorMessage = error.status === 409
-          ? 'This phone number is already registered.'
-          : 'Error submitting form. Please try again.';
+        let errorMessage: string;
+
+        if (error.status === 409) {
+          // 1. Set a specific error on the phoneNumber form control
+          this.phoneNumber?.setErrors({ 'duplicate': true });
+
+          // 2. Prepare the snackbar message
+          errorMessage = 'This phone number is already registered.';
+
+        } else {
+          // Handle other potential server errors
+          errorMessage = 'Error submitting form. Please try again.';
+        }
+
+        // 3. Show the snackbar message
         this.snackBar.open(errorMessage, 'Close', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
       },
+      
       complete: () => {
         this.isSubmitting = false;
       }
     });
   }
+
 
   // Mark all form fields as touched to trigger validation messages
   private markFormGroupTouched(formGroup: FormGroup) {
