@@ -1,5 +1,5 @@
 <ion-card class="kyc-card">
-  <!-- Card Header: Title and Progress Info -->
+  <!-- KYC Card: ID Verification Step -->
   <div class="card-header">
     <div class="header-content">
       <div class="header-left">
@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <!-- Circular progress indicator showing 67% completion -->
+      <!-- Circular progress indicator -->
       <div class="completion-indicator">
         <div class="progress-circle">
           <svg width="40" height="40">
@@ -34,12 +34,12 @@
     </div>
   </div>
 
-  <!-- Step Progress Bar Component -->
+  <!-- Visual Step Progress Indicator -->
   <div class="progress-steps">
     <app-step-progress [currentStep]="2"></app-step-progress>
   </div>
 
-  <!-- Form Section: Upload Front and Back of ID -->
+  <!-- Section: Upload Front and Back of ID -->
   <div class="form-section">
     <div class="form-header">
       <h3 class="form-title">ID Document Photos</h3>
@@ -47,9 +47,8 @@
     </div>
 
     <div class="form-grid">
-      <!-- Front of ID Upload -->
+      <!-- Front of ID Upload Area -->
       <div class="upload-section">
-        <!-- MODIFIED: Click event calls the new action sheet method -->
         <div class="upload-area" (click)="presentImageActionSheet('front')">
           <div *ngIf="!previews['front']" class="upload-placeholder">
             <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
@@ -71,9 +70,8 @@
         </div>
       </div>
 
-      <!-- Back of ID Upload -->
+      <!-- Back of ID Upload Area -->
       <div class="upload-section">
-        <!-- MODIFIED: Click event calls the new action sheet method -->
         <div class="upload-area" (click)="presentImageActionSheet('back')">
           <div *ngIf="!previews['back']" class="upload-placeholder">
             <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
@@ -97,7 +95,7 @@
     </div>
   </div>
 
-  <!-- Form Section: Upload or Take Selfie -->
+  <!-- Section: Upload or Capture Selfie -->
   <div class="form-section">
     <div class="form-header">
       <h3 class="form-title">Selfie Verification</h3>
@@ -105,7 +103,6 @@
     </div>
 
     <div class="upload-section">
-      <!-- MODIFIED: Click event calls the new action sheet method -->
       <div class="upload-area" (click)="presentImageActionSheet('selfie')">
         <div *ngIf="!selfiePreview" class="upload-placeholder">
           <ion-icon name="camera-outline" class="upload-icon"></ion-icon>
@@ -127,7 +124,7 @@
       </div>
     </div>
 
-    <!-- Navigation Buttons (No changes needed) -->
+    <!-- Navigation Buttons -->
     <div class="action-buttons">
       <ion-button
         fill="outline"
@@ -156,5 +153,4 @@
       </ion-button>
     </div>
   </div>
-
 </ion-card>
