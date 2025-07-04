@@ -12,7 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Capacitor Camera Plugin
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-
+import { NgZone } from '@angular/core';
 // Local Imports
 import { KycService } from '../../services/kyc.service';
 import { StepProgressComponent } from '../../shared/components/step-progress/step-progress.component';
@@ -61,7 +61,8 @@ export class Step2Component implements OnInit {
     private router: Router,
     private kycService: KycService,
     private snackBar: MatSnackBar,
-    private actionSheetCtrl: ActionSheetController // MODIFIED: Injected ActionSheetController
+    private zone: NgZone, // MODIFIED: Injected NgZone for change detection
+    private actionSheetCtrl: ActionSheetController, // MODIFIED: Injected ActionSheetController
   ) {
     addIcons({
       'id-card': idCard,
@@ -134,14 +135,17 @@ export class Step2Component implements OnInit {
           return;
         }
 
+        this.zone.run(() => {
+          // Ensure change detection runs after setting the preview
         if (type === 'front' || type === 'back') {
-          this.previews[type] = image.dataUrl;
+          this.previews[type] = image.dataUrl!;
           const controlName = type === 'front' ? 'frontPhoto' : 'backPhoto';
           this.idForm.get(controlName)?.setValue(imageBlob);
         } else { // 'selfie'
-          this.selfiePreview = image.dataUrl;
+          this.selfiePreview = image.dataUrl!;
           this.documentForm.get('selfie')?.setValue(imageBlob);
         }
+        });
       }
     } catch (error) {
       console.log('User cancelled operation:', error);
